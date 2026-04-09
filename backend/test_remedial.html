@@ -1,0 +1,398 @@
+<?php
+// Test script untuk modal remedial
+?>
+<!doctype html>
+<html>
+  <head>
+    <title>Test Remedial Modal</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #1a1a1a;
+        color: white;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 10px;
+        background: #00ff41;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test Personalized Remedial Modal</h1>
+    <button onclick="testRemedial('Kebocoran Pipa Gas')">
+      Test Kebocoran Pipa Gas
+    </button>
+    <button onclick="testRemedial('Korsleting Listrik')">
+      Test Korsleting Listrik
+    </button>
+    <button onclick="testRemedial('Tumpahan Oli')">Test Tumpahan Oli</button>
+
+    <!-- MODAL REMEDIAL (copy dari index.php) -->
+    <div id="remedialModal" class="remedial-modal" style="display: none">
+      <div class="remedial-modal-content">
+        <div class="remedial-header">
+          <h2 id="remedialTitle">📚 PEMBELAJARAN REMEDIAL PERSONALIZED</h2>
+          <span class="remedial-close" onclick="closeRemedialModal()"
+            >&times;</span
+          >
+        </div>
+
+        <div class="remedial-body">
+          <div class="remedial-3d-container">
+            <a-scene
+              embedded
+              id="remedialScene"
+              style="height: 300px; width: 100%"
+            >
+              <a-entity camera position="0 1.6 0" look-controls>
+                <a-cursor color="#007bff"></a-cursor>
+              </a-entity>
+              <a-sky color="#f8f9fa"></a-sky>
+              <a-plane
+                position="0 0 -3"
+                rotation="-90 0 0"
+                width="8"
+                height="8"
+                color="#e9ecef"
+                opacity="0.8"
+              ></a-plane>
+              <a-entity id="remedialVisualization"></a-entity>
+              <a-text
+                id="remedialText"
+                value="Klik objek untuk mempelajari lebih lanjut"
+                position="0 2 -2"
+                align="center"
+                color="#007bff"
+                scale="0.8 0.8 0.8"
+              ></a-text>
+            </a-scene>
+          </div>
+
+          <div class="remedial-content">
+            <div id="remedialAnalysis" class="remedial-analysis">
+              <h3>🔍 ANALISIS KESALAHAN ANDA</h3>
+              <div id="errorAnalysis"></div>
+            </div>
+
+            <div id="remedialSteps" class="remedial-steps">
+              <h3>📋 LANGKAH PERBAIKAN</h3>
+              <div id="correctionSteps"></div>
+            </div>
+
+            <div id="remedialResources" class="remedial-resources">
+              <h3>🎯 SUMBER BELAJAR</h3>
+              <div id="learningResources"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="remedial-footer">
+          <button onclick="closeRemedialModal()" class="continue-btn">
+            ✅ Mengerti, Lanjutkan
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .remedial-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .remedial-modal-content {
+        background: #ffffff;
+        border: 2px solid #007bff;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 1200px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3);
+      }
+
+      .remedial-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #dee2e6;
+        background: linear-gradient(45deg, #007bff, #0056b3);
+        color: #ffffff;
+      }
+
+      .remedial-header h2 {
+        color: #ffffff;
+        margin: 0;
+        font-size: 1.5em;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      .remedial-close {
+        color: #ffffff;
+        font-size: 2em;
+        cursor: pointer;
+        transition: 0.3s;
+        opacity: 0.8;
+      }
+
+      .remedial-close:hover {
+        color: #ffcccc;
+        transform: scale(1.2);
+        opacity: 1;
+      }
+
+      .remedial-body {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .remedial-3d-container {
+        flex: 1;
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #f8f9fa;
+      }
+
+      .remedial-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .remedial-analysis,
+      .remedial-steps,
+      .remedial-resources {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .remedial-analysis h3,
+      .remedial-steps h3,
+      .remedial-resources h3 {
+        color: #007bff;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.1em;
+        font-weight: 600;
+      }
+
+      .remedial-analysis p,
+      .remedial-steps li,
+      .remedial-resources li {
+        color: #495057;
+        line-height: 1.6;
+      }
+
+      .remedial-steps ol {
+        padding-left: 20px;
+      }
+
+      .remedial-steps li {
+        margin-bottom: 8px;
+      }
+
+      .remedial-resources ul {
+        padding-left: 20px;
+      }
+
+      .remedial-footer {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        padding: 20px;
+        border-top: 1px solid #dee2e6;
+        background: #f8f9fa;
+      }
+
+      .continue-btn {
+        padding: 12px 25px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .continue-btn:hover {
+        background: #0056b3;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .remedial-body {
+          flex-direction: column;
+        }
+
+        .remedial-3d-container {
+          height: 250px;
+        }
+      }
+    </style>
+
+    <script>
+      function testRemedial(jenisRisiko) {
+        showRemedialModal({
+          jenisRisiko: jenisRisiko,
+          skor: 45,
+          kategoriRisiko: "Tinggi",
+          konsekuensi: "Bahaya serius terhadap keselamatan",
+          rekomendasi: "Ikuti prosedur K3 yang benar",
+          tindakanDipilih: "Tindakan yang salah",
+          alasanGagal: "Kesalahan dalam penanganan situasi darurat",
+        });
+      }
+
+      let remedialData = {};
+
+      function showRemedialModal(data) {
+        remedialData = data;
+        const modal = document.getElementById("remedialModal");
+        const title = document.getElementById("remedialTitle");
+        const analysis = document.getElementById("errorAnalysis");
+        const steps = document.getElementById("correctionSteps");
+        const resources = document.getElementById("learningResources");
+
+        title.innerHTML = `📚 PEMBELAJARAN REMEDIAL: ${data.jenisRisiko}`;
+        analysis.innerHTML = generateErrorAnalysis(data);
+        steps.innerHTML = generateCorrectionSteps(data);
+        resources.innerHTML = generateLearningResources(data);
+
+        setupRemedialVisualization(data);
+        modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeRemedialModal() {
+        const modal = document.getElementById("remedialModal");
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+
+        const scene = document.getElementById("remedialScene");
+        if (scene) {
+          const visualization = document.getElementById(
+            "remedialVisualization",
+          );
+          if (visualization) {
+            visualization.innerHTML = "";
+          }
+        }
+      }
+
+      function generateErrorAnalysis(data) {
+        return `<p><strong>Kesalahan Utama:</strong> ${data.alasanGagal}</p>
+                   <p><strong>Skor Anda:</strong> ${data.skor}/100 (${data.kategoriRisiko})</p>
+                   <p><strong>Analisis:</strong> Tindakan yang dipilih tidak sesuai dengan prosedur K3 yang benar untuk menangani ${data.jenisRisiko}.</p>`;
+      }
+
+      function generateCorrectionSteps(data) {
+        return `<ol>
+                   <li>Evaluasi situasi dengan cepat dan akurat</li>
+                   <li>Prioritaskan keselamatan diri dan rekan kerja</li>
+                   <li>Ikuti SOP penanganan ${data.jenisRisiko}</li>
+                   <li>Gunakan peralatan K3 yang sesuai</li>
+                   <li>Laporkan insiden sesuai prosedur</li>
+                   </ol>`;
+      }
+
+      function generateLearningResources(data) {
+        return `<ul>
+                   <li><strong>SOP ${data.jenisRisiko}:</strong> Panduan penanganan resmi</li>
+                   <li><strong>Pelatihan K3:</strong> Kursus keselamatan kerja</li>
+                   <li><strong>APD Usage:</strong> Penggunaan alat pelindung diri</li>
+                   <li><strong>Emergency Response:</strong> Tanggap darurat</li>
+                   </ul>`;
+      }
+
+      function setupRemedialVisualization(data) {
+        const visualization = document.getElementById("remedialVisualization");
+        const remedialText = document.getElementById("remedialText");
+
+        visualization.innerHTML = "";
+
+        switch (data.jenisRisiko) {
+          case "Kebocoran Pipa Gas":
+            visualization.innerHTML = `
+                        <a-box width="0.8" height="0.8" depth="0.8" color="#2c3e50" position="0 0.4 -3"></a-box>
+                        <a-cylinder radius="0.06" height="1.2" color="#7f8c8d" position="0 1.2 -3"></a-cylinder>
+                        <a-cylinder radius="0.06" height="3" color="#7f8c8d" position="1.5 1.8 -3" rotation="0 0 90"></a-cylinder>
+                        <a-sphere radius="0.3" color="#e74c3c" position="1.5 1.8 -3" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                    <a-text value="❌ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
+                    <a-text value="Gas Bocor" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
+                    `;
+            remedialText.setAttribute(
+              "value",
+              "Area berbahaya - Evakuasi segera!",
+            );
+            break;
+
+          case "Korsleting Listrik":
+            visualization.innerHTML = `
+                        <a-box width="1" height="0.6" depth="0.4" color="#34495e" position="0 0.3 -3"></a-box>
+                        <a-cylinder radius="0.03" height="0.8" color="#f39c12" position="-0.2 0.8 -3" rotation="15 0 0"></a-cylinder>
+                        <a-cylinder radius="0.03" height="0.8" color="#f39c12" position="0.2 0.8 -3" rotation="-15 0 0"></a-cylinder>
+                        <a-sphere radius="0.15" color="#e74c3c" position="0 0.6 -2.8" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;"></a-sphere>
+                        <a-sphere radius="0.1" color="#ffaa00" position="-0.1 0.7 -2.9" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;"></a-sphere>
+                    <a-text value="⚡ KORLET!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
+                    <a-text value="JANGAN pakai air!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
+                    `;
+            remedialText.setAttribute("value", "Gunakan APAR CO2, bukan air!");
+            break;
+
+          case "Tumpahan Oli":
+            visualization.innerHTML = `
+                        <a-plane position="0 0.01 -3" rotation="-90 0 0" width="4" height="4" color="#2c3e50" opacity="0.8"></a-plane>
+                        <a-circle radius="1.5" color="#f1c40f" position="0 0.02 -3" rotation="-90 0 0" opacity="0.7" animation="property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1200; loop: true; dir: alternate;"></a-circle>
+                        <a-cylinder radius="0.1" height="0.05" color="#34495e" position="0.5 0.1 -2.5"></a-cylinder>
+                        <a-cylinder radius="0.08" height="0.03" color="#e74c3c" position="-0.3 0.08 -2.8" rotation="90 0 0"></a-cylinder>
+                        <a-text value="🛢️ TUMPAHAN" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
+                        <a-text value="Bahaya Licin!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
+                    `;
+            remedialText.setAttribute(
+              "value",
+              "Gunakan Spill Kit untuk cleanup!",
+            );
+            break;
+
+          default:
+            visualization.innerHTML = `
+                        <a-sphere radius="0.8" color="#e74c3c" position="0 1 -3" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                        <a-text value="⚠️ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.8 0.8 0.8"></a-text>
+                        <a-text value="Ikuti SOP K3" position="0 2.2 -2" align="center" color="#007bff" scale="0.6 0.6 0.6"></a-text>
+                    `;
+            remedialText.setAttribute(
+              "value",
+              "Selalu prioritaskan keselamatan!",
+            );
+        }
+      }
+    </script>
+  </body>
+</html>
