@@ -1227,7 +1227,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                     <a-cylinder radius="0.03" height="0.8" color="#f39c12" position="0.2 0.8 -3" rotation="-15 0 0"></a-cylinder>
                     <a-sphere radius="0.15" color="#e74c3c" position="0 0.6 -2.8" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;"></a-sphere>
                     <a-sphere radius="0.1" color="#ffaa00" position="-0.1 0.7 -2.9" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;"></a-sphere>
-                    <a-text value="⚡ KORLET!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
+                    <a-text value="⚡ KORSLET!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                     <a-text value="JANGAN pakai air!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
                 `;
                 remedialText.setAttribute('value', 'Gunakan APAR CO2, bukan air!');

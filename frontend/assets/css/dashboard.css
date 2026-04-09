@@ -300,6 +300,333 @@ td {
   border: 2px solid #ffc107;
 }
 
+/* ================= MOBILE MENU ================= */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.5em;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.mobile-menu-btn.active {
+  display: block;
+}
+
+.nav-mobile {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: #1a1a1a;
+  border-bottom: 2px solid #333333;
+  display: none;
+  flex-direction: column;
+  gap: 0;
+  z-index: 998;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile a,
+.nav-mobile div {
+  padding: 12px 20px;
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid #333333;
+  font-size: 0.95em;
+}
+
+.nav-mobile a:hover {
+  background: #333333;
+}
+
+/* ================= RESPONSIVE MOBILE VIEW ================= */
+@media (max-width: 1024px) {
+  .main-container {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .simulation-window {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Navigation adjustments */
+  .nav {
+    padding: 10px 15px;
+    flex-wrap: wrap;
+  }
+
+  .nav > div:nth-child(2) {
+    display: none;
+  }
+
+  .mobile-menu-btn.active {
+    display: block;
+  }
+
+  /* Main container */
+  .main-container {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  /* Form layout for mobile */
+  form {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  form .input-field,
+  form .btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  /* Flex layout mobile */
+  > div[style*="display: flex;"] {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  /* Simulation window */
+  .simulation-window {
+    height: 300px;
+    flex: none !important;
+    width: 100%;
+  }
+
+  /* Card styling */
+  .card {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* Remedial modal */
+  .remedial-modal-content {
+    width: 95% !important;
+    max-height: 95vh !important;
+  }
+
+  .remedial-body {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .remedial-3d-container {
+    height: 250px;
+  }
+
+  .remedial-header h2 {
+    font-size: 1.2em;
+  }
+
+  /* Table adjustments */
+  table {
+    font-size: 0.8em;
+  }
+
+  th,
+  td {
+    padding: 8px 5px;
+  }
+
+  /* Button adjustments */
+  .btn {
+    padding: 10px;
+    font-size: 0.95em;
+    border-radius: 5px;
+  }
+
+  /* Section title */
+  .section-title {
+    font-size: 1em;
+    margin-bottom: 10px;
+  }
+
+  /* Hazard overlay */
+  .hazard-overlay {
+    font-size: 1.2em;
+    top: 20%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screen adjustments */
+  .nav {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+
+  .nav > div:first-child {
+    font-size: 1.1em;
+  }
+
+  .mobile-menu-btn {
+    margin-right: 5px;
+  }
+
+  /* Main container */
+  .main-container {
+    padding: 5px;
+  }
+
+  /* Card styling */
+  .card {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-width: 1px;
+  }
+
+  /* Simulation window */
+  .simulation-window {
+    height: 250px;
+  }
+
+  .simulation-window a-scene {
+    height: 250px !important;
+  }
+
+  /* Input fields */
+  .input-field {
+    padding: 8px;
+    margin-bottom: 8px;
+    font-size: 1em;
+  }
+
+  /* Button */
+  .btn {
+    padding: 10px;
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+
+  .btn-emergency {
+    height: 50px;
+    font-size: 1em;
+  }
+
+  /* Table */
+  table {
+    font-size: 0.75em;
+  }
+
+  th,
+  td {
+    padding: 5px 3px;
+  }
+
+  /* Text sizing */
+  body {
+    font-size: 14px;
+  }
+
+  .section-title {
+    font-size: 0.95em;
+  }
+
+  h3 {
+    font-size: 1em;
+    margin: 10px 0 5px 0;
+  }
+
+  /* Remedial modal */
+  .remedial-modal-content {
+    border-radius: 10px;
+  }
+
+  .remedial-header {
+    padding: 12px;
+  }
+
+  .remedial-header h2 {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .remedial-close {
+    font-size: 1.5em;
+  }
+
+  .remedial-body {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .remedial-3d-container {
+    height: 200px;
+  }
+
+  .remedial-analysis,
+  .remedial-steps,
+  .remedial-resources {
+    padding: 10px;
+  }
+
+  .remedial-analysis h3,
+  .remedial-steps h3,
+  .remedial-resources h3 {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+  }
+
+  .remedial-analysis p,
+  .remedial-steps li,
+  .remedial-resources li {
+    font-size: 0.85em;
+  }
+
+  .remedial-footer {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .retry-btn,
+  .continue-btn {
+    padding: 10px 15px;
+    font-size: 0.9em;
+  }
+
+  /* Connection status */
+  #connectionStatus {
+    display: none;
+  }
+
+  /* AI status */
+  .ai-status {
+    font-size: 0.75em;
+    padding: 8px;
+  }
+
+  /* Responsive chart */
+  #grafikK3 {
+    max-width: 100px;
+    height: 100px;
+  }
+
+  div[style*="width: 130px;"] {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+}
+
 .retry-btn:hover {
   background: #ffca2c;
   border-color: #ffca2c;

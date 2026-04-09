@@ -1,0 +1,485 @@
+/* K3-VirtuAI Mobile Responsive Stylesheet */
+/* Untuk perangkat mobile (smartphone, tablet kecil) */
+
+/* ================= BASE MOBILE STYLES ================= */
+@media (max-width: 768px) {
+  /* ---- BODY & GENERAL ---- */
+  body {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ---- NAVIGATION ---- */
+  .nav {
+    padding: 8px 12px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .nav > div:nth-child(2) {
+    display: none !important;
+  }
+
+  .mobile-menu-btn {
+    display: block !important;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.3em;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+
+  .nav-mobile {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border-bottom: 2px solid #333;
+    max-height: calc(100vh - 50px);
+    overflow-y: auto;
+    z-index: 998;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .nav-mobile.active {
+    transform: translateX(0);
+  }
+
+  .nav-mobile a,
+  .nav-mobile div {
+    display: block;
+    padding: 12px 16px;
+    color: white;
+    text-decoration: none;
+    border-bottom: 1px solid #333;
+    font-size: 0.95em;
+  }
+
+  .nav-mobile a:active {
+    background: #333;
+  }
+
+  /* ---- MAIN CONTAINER ---- */
+  .main-container {
+    padding: 8px;
+    max-width: 100%;
+  }
+
+  /* ---- CARDS ---- */
+  .card {
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+  }
+
+  /* ---- FORMS ---- */
+  form {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  form .input-field {
+    width: 100% !important;
+    padding: 10px !important;
+    margin: 0 !important;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  form .input-field:focus {
+    outline: none;
+  }
+
+  form .btn {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 12px !important;
+    font-size: 1em;
+  }
+
+  /* ---- BUTTONS ---- */
+  .btn {
+    padding: 10px;
+    font-size: 0.95em;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+
+  .btn-start,
+  .btn-emergency {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  .btn-emergency {
+    height: auto;
+    min-height: 50px;
+  }
+
+  /* ---- SIMULATION WINDOW ---- */
+  .simulation-window {
+    height: 280px;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  /* ---- TABLES ---- */
+  table {
+    font-size: 0.75em;
+    word-break: break-word;
+  }
+
+  th,
+  td {
+    padding: 6px 4px;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  /* Hide less important columns on small screens */
+  th:nth-child(n + 4),
+  td:nth-child(n + 4) {
+    font-size: 0.7em;
+  }
+
+  /* ---- MODALS ---- */
+  .remedial-modal {
+    padding: 8px;
+  }
+
+  .remedial-modal-content {
+    width: 95% !important;
+    max-height: 90vh !important;
+    border-radius: 10px;
+    max-width: 100%;
+  }
+
+  .remedial-header {
+    padding: 12px;
+  }
+
+  .remedial-header h2 {
+    font-size: 1em;
+    margin: 0;
+  }
+
+  .remedial-close {
+    font-size: 1.8em;
+  }
+
+  .remedial-body {
+    flex-direction: column;
+    gap: 12px;
+    padding: 10px;
+  }
+
+  .remedial-3d-container {
+    height: 220px;
+  }
+
+  .remedial-content {
+    flex: 1;
+  }
+
+  .remedial-analysis,
+  .remedial-steps,
+  .remedial-resources {
+    padding: 10px;
+  }
+
+  .remedial-analysis h3,
+  .remedial-steps h3,
+  .remedial-resources h3 {
+    font-size: 0.9em;
+    margin: 0 0 8px 0;
+  }
+
+  .remedial-analysis p,
+  .remedial-steps li,
+  .remedial-resources li {
+    font-size: 0.8em;
+  }
+
+  .remedial-footer {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .retry-btn,
+  .continue-btn {
+    padding: 10px;
+    font-size: 0.85em;
+    width: 100%;
+  }
+
+  /* ---- TEXT ---- */
+  .section-title {
+    font-size: 0.95em;
+  }
+
+  h3 {
+    font-size: 0.95em;
+    margin: 8px 0;
+  }
+
+  label {
+    font-size: 0.85em;
+  }
+
+  /* ---- UTILITIES ---- */
+  #connectionStatus {
+    display: none !important;
+  }
+
+  .ai-status {
+    font-size: 0.7em;
+    padding: 6px;
+  }
+
+  #grafikK3 {
+    max-width: 100px;
+    height: 100px;
+  }
+
+  .hazard-overlay {
+    font-size: 1.2em;
+    top: 25%;
+  }
+
+  #timerText {
+    font-size: 1.5em !important;
+  }
+}
+
+/* ================= EXTRA SMALL SCREENS (< 480px) ================= */
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  .nav {
+    padding: 6px 8px;
+    gap: 5px;
+  }
+
+  .nav > div:first-child {
+    font-size: 1em;
+  }
+
+  .mobile-menu-btn {
+    font-size: 1.2em;
+    padding: 4px 6px;
+  }
+
+  .main-container {
+    padding: 4px;
+  }
+
+  .card {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .section-title {
+    font-size: 0.9em;
+    margin-bottom: 8px;
+  }
+
+  form {
+    gap: 6px !important;
+  }
+
+  form .input-field {
+    padding: 8px !important;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  form .btn {
+    padding: 10px !important;
+  }
+
+  .btn {
+    padding: 8px;
+    font-size: 0.85em;
+  }
+
+  .simulation-window {
+    height: 240px;
+  }
+
+  table {
+    font-size: 0.65em;
+  }
+
+  th,
+  td {
+    padding: 4px 2px;
+  }
+
+  /* Only show essential columns */
+  th:nth-child(n + 3),
+  td:nth-child(n + 3) {
+    display: none;
+  }
+
+  .remedial-modal-content {
+    border-radius: 8px;
+  }
+
+  .remedial-header {
+    padding: 8px;
+  }
+
+  .remedial-header h2 {
+    font-size: 0.9em;
+  }
+
+  .remedial-body {
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .remedial-3d-container {
+    height: 180px;
+  }
+
+  .remedial-analysis,
+  .remedial-steps,
+  .remedial-resources {
+    padding: 8px;
+  }
+
+  .remedial-analysis h3,
+  .remedial-steps h3,
+  .remedial-resources h3 {
+    font-size: 0.85em;
+    margin: 0 0 6px 0;
+  }
+
+  .remedial-analysis p,
+  .remedial-steps li,
+  .remedial-resources li {
+    font-size: 0.75em;
+    line-height: 1.3;
+  }
+
+  .remedial-footer {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .retry-btn,
+  .continue-btn {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+
+  #grafikK3 {
+    max-width: 80px;
+    height: 80px;
+  }
+
+  .hazard-overlay {
+    font-size: 1em;
+    top: 30%;
+  }
+
+  #timerText {
+    font-size: 1.2em !important;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  select,
+  textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  select:focus,
+  textarea:focus {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+/* ================= TABLET LANDSCAPE (768px - 1024px) ================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .simulation-window {
+    height: 400px;
+  }
+
+  .main-container {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  table {
+    font-size: 0.85em;
+  }
+
+  .remedial-3d-container {
+    height: 280px;
+  }
+}
+
+/* ================= ACCESSIBILITY ================= */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .nav-mobile {
+    transition: none;
+  }
+}
+
+/* ================= DARK MODE SUPPORT ================= */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+
+  .card {
+    background: #2a2a2a;
+  }
+
+  input,
+  select,
+  textarea {
+    background: #333;
+    color: #e0e0e0;
+    border-color: #555;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #007bff;
+  }
+}

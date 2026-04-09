@@ -9,10 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <link rel="stylesheet" href="../frontend/assets/css/dashboard.css">
+    <link rel="stylesheet" href="../frontend/assets/css/mobile.css">
 </head>
 <body data-user-role="<?php echo $_SESSION['role']; ?>" data-admin-scenario="<?php echo $skenario_aktif; ?>" data-stats-lulus="<?php echo $stats['lulus']; ?>" data-stats-gagal="<?php echo $stats['gagal']; ?>">
 
 <nav class="nav">
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     <div style="font-size: 1.4em; font-weight: bold; color: #ffffff;">K3-VirtuAI 🛡️</div>
 
     <div style="display: flex; gap: 15px; align-items: center;">
@@ -32,6 +34,23 @@
         <a href="../backend/logout.php" style="color: #ffffff; text-decoration: none; margin-left: 10px; border: 1px solid #ffffff; padding: 5px 10px; border-radius: 4px;">Keluar (<?php echo $_SESSION['nama']; ?>)</a>
     </div>
 </nav>
+
+<!-- Mobile Navigation Menu -->
+<div class="nav-mobile" id="navMobile">
+    <a href="index.php">📊 Dashboard</a>
+    
+    <?php if ($_SESSION['role'] === 'mahasiswa') : ?>
+        <a href="../backend/profil.php">👤 Profil Saya</a>
+    <?php endif; ?>
+
+    <?php if ($_SESSION['role'] === 'dosen' || $_SESSION['role'] === 'admin') : ?>
+        <a href="../backend/rekap_nilai.php">📈 Rekap Nilai</a>
+        <a href="../backend/admin_skenario_fixed.php">⚙️ Atur Skenario</a>
+    <?php endif; ?>
+
+    <div id="statusMobile">Status: <span style="color:#28a745">● Terhubung</span></div>
+    <a href="../backend/logout.php" style="color: #ffaaaa;">🚪 Keluar (<?php echo $_SESSION['nama']; ?>)</a>
+</div>
 
 <div class="main-container">
 
@@ -83,9 +102,9 @@
     </div>
     <?php endif; ?>
 
-    <div style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 20px;">
+    <div style="display: flex; gap: 20px; align-items: stretch; margin-bottom: 20px; flex-wrap: wrap;">
 
-        <div class="simulation-window" id="simWindow" style="flex: 2;">
+        <div class="simulation-window" id="simWindow" style="flex: 2; min-width: 100%; max-width: 100%;">
             <div id="hazardText" class="hazard-overlay">⚠️ BAHAYA TERDETEKSI!</div>
 
             <a-scene embedded style="height: 100%; width: 100%;">
@@ -111,7 +130,7 @@
             <div id="timerText" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 2em; font-weight: bold; z-index: 999; display: none; text-shadow: 0 0 10px #000;"></div>
         </div>
 
-        <div style="flex: 1.2; display: flex; flex-direction: column; gap: 20px;">
+        <div style="flex: 1.2; display: flex; flex-direction: column; gap: 20px; min-width: 100%; max-width: 100%;">
 
             <div class="card" style="flex: 1; margin-bottom: 0; display: flex; flex-direction: column; gap: 10px;">
                 <h3 style="margin-top:0; font-size: 1.1em; color: #3498db;">Simulator Control</h3>

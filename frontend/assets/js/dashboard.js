@@ -8,6 +8,45 @@ let remedialData = {};
 // Get user role from data attribute
 const currentRole = document.body.getAttribute("data-user-role") || "mahasiswa";
 
+// ================= MOBILE MENU TOGGLE =================
+function toggleMobileMenu() {
+  const navMobile = document.getElementById("navMobile");
+  if (navMobile) {
+    navMobile.classList.toggle("active");
+  }
+}
+
+// Close mobile menu when a link is clicked
+document.addEventListener("DOMContentLoaded", function () {
+  const mobileLinks = document.querySelectorAll(".nav-mobile a");
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", function () {
+      const navMobile = document.getElementById("navMobile");
+      if (navMobile) {
+        navMobile.classList.remove("active");
+      }
+    });
+  });
+
+  // Update mobile menu button visibility on resize
+  function handleResize() {
+    const btn = document.querySelector(".mobile-menu-btn");
+    const navDiv = document.querySelector(".nav > div:nth-child(3)");
+    if (window.innerWidth <= 768) {
+      if (btn) btn.classList.add("active");
+      if (navDiv) navDiv.style.display = "none";
+    } else {
+      if (btn) btn.classList.remove("active");
+      const navMobile = document.getElementById("navMobile");
+      if (navMobile) navMobile.classList.remove("active");
+      if (navDiv) navDiv.style.display = "flex";
+    }
+  }
+
+  handleResize();
+  window.addEventListener("resize", handleResize);
+});
+
 // 1. DAFTAR 5 SKENARIO K3 RESMI
 const skenarioK3 = [
   {

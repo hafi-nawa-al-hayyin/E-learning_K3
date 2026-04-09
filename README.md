@@ -4,6 +4,30 @@
 
 K3-VirtuAI is a K3 (Safety, Health, and Environment) virtual reality simulation system that has been refactored from a monolithic structure into a clean MVC (Model-View-Controller) architecture.
 
+### 📱 Mobile Responsive
+
+Aplikasi telah dioptimalkan untuk perangkat mobile dengan:
+
+- **Responsive Design**: Menyesuaikan layout untuk desktop, tablet, dan smartphone
+- **Hamburger Navigation**: Menu otomatis berubah di layar kecil
+- **Touch-Friendly UI**: Button dan input optimal untuk sentuhan
+- **Dark Mode Support**: Otomatis apply dark mode sesuai preference device
+- **Performance Optimized**: Lightweight CSS untuk mobile bandwidth
+
+**Untuk panduan lengkap mobile, lihat [MOBILE_GUIDE.md](MOBILE_GUIDE.md)**  
+**Untuk testing responsiveness, buka [mobile-test.html](mobile-test.html)**
+
+### 🔒 Admin Security Lockdown
+
+Sistem keamanan untuk mencegah registrasi sebagai admin:
+
+- **Frontend Protection**: Option admin tidak tersedia di form register
+- **Backend Validation**: Server reject jika ada upaya bypass
+- **Admin Management**: Admin tetap bisa menambah admin baru melalui dashboard
+- **Data Preservation**: Akun admin existing tidak terpengaruh
+
+**Untuk detail keamanan admin, lihat [ADMIN_SECURITY.md](ADMIN_SECURITY.md)**
+
 ## Project Structure
 
 ```

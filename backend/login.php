@@ -18,21 +18,27 @@ if (isset($_POST['register'])) {
     $role = mysqli_real_escape_string($conn, $_POST['role']);
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Cek apakah NIM/NIDN sudah terdaftar di tabel users
-    $cek = mysqli_query($conn, "SELECT * FROM users WHERE nim_nidn='$nim'");
-    
-    if (mysqli_num_rows($cek) > 0) {
-        $pesan = "<div style='color:#ff4d4d; margin-bottom: 15px;'>NIM/NIDN sudah terdaftar!</div>";
-        $tampilkan_register = true; // Tetap di box register jika gagal
+    // Validasi: Cegah registrasi sebagai admin melalui form register
+    if ($role === 'admin') {
+        $pesan = "<div style='color:#ff4d4d; margin-bottom: 15px;'>❌ Registrasi sebagai Admin tidak diperbolehkan melalui form ini!</div>";
+        $tampilkan_register = true;
     } else {
-        // Masukkan data baru
-        $insert = mysqli_query($conn, "INSERT INTO users (nama_lengkap, nim_nidn, password, role) VALUES ('$nama', '$nim', '$password', '$role')");
-        if ($insert) {
-            $pesan = "<div style='color:#00ff41; margin-bottom: 15px;'>Registrasi berhasil! Silakan Login.</div>";
-            $tampilkan_register = false; // Pindah ke box login jika sukses
+        // Cek apakah NIM/NIDN sudah terdaftar di tabel users
+        $cek = mysqli_query($conn, "SELECT * FROM users WHERE nim_nidn='$nim'");
+        
+        if (mysqli_num_rows($cek) > 0) {
+            $pesan = "<div style='color:#ff4d4d; margin-bottom: 15px;'>NIM/NIDN sudah terdaftar!</div>";
+            $tampilkan_register = true; // Tetap di box register jika gagal
         } else {
-            $pesan = "<div style='color:#ff4d4d; margin-bottom: 15px;'>Gagal mendaftar. Coba lagi.</div>";
-            $tampilkan_register = true;
+            // Masukkan data baru
+            $insert = mysqli_query($conn, "INSERT INTO users (nama_lengkap, nim_nidn, password, role) VALUES ('$nama', '$nim', '$password', '$role')");
+            if ($insert) {
+                $pesan = "<div style='color:#00ff41; margin-bottom: 15px;'>Registrasi berhasil! Silakan Login.</div>";
+                $tampilkan_register = false; // Pindah ke box login jika sukses
+            } else {
+                $pesan = "<div style='color:#ff4d4d; margin-bottom: 15px;'>Gagal mendaftar. Coba lagi.</div>";
+                $tampilkan_register = true;
+            }
         }
     }
 }
@@ -209,9 +215,193 @@ if (isset($_POST['login'])) {
         .forgot-link:hover { opacity: 1; }
         
         /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .box { 
+                padding: 30px 20px; 
+                margin: 10px;
+                width: min(95vw, 450px);
+                border-radius: 15px;
+            }
+            h2 { 
+                font-size: 1.5em;
+                margin-bottom: 20px;
+            }
+            h2::after {
+                width: 40px;
+                height: 2px;
+            }
+            input, select {
+                padding: 13px;
+                margin: 12px 0;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+            .password-container {
+                margin: 12px 0;
+            }
+            .password-toggle {
+                right: 12px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+            button {
+                padding: 14px;
+                font-size: 1em;
+                margin-top: 8px;
+                border-radius: 10px;
+            }
+            p {
+                font-size: 0.85em;
+                margin-top: 15px;
+            }
+            .link {
+                font-size: 0.85em;
+            }
+        }
+
         @media (max-width: 480px) {
-            .box { padding: 30px 20px; margin: 10px; }
-            h2 { font-size: 1.5em; }
+            body {
+                padding: 5px;
+                min-height: 100vh;
+            }
+            .box { 
+                padding: 20px 15px; 
+                margin: 5px;
+                width: min(98vw, 100%);
+                border-radius: 12px;
+                border: 1.5px solid #007bff;
+                box-shadow: 0 10px 25px rgba(0,123,255,0.08);
+            }
+            .box:hover {
+                transform: none;
+                box-shadow: 0 15px 35px rgba(0,123,255,0.12);
+            }
+            h2 { 
+                font-size: 1.2em;
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+            h2::after {
+                width: 30px;
+                height: 2px;
+                bottom: -8px;
+            }
+            input, select {
+                width: 100%;
+                padding: 12px;
+                margin: 10px 0;
+                font-size: 16px;
+                border-radius: 8px;
+                border: 1.5px solid #007bff;
+                -webkit-appearance: none;
+                appearance: none;
+            }
+            input:focus, select:focus {
+                transform: scale(1);
+                border-color: #0056b3;
+                box-shadow: 0 0 10px rgba(0,123,255,0.2);
+            }
+            .password-container {
+                position: relative;
+                width: 100%;
+                margin: 10px 0;
+            }
+            .password-container input {
+                padding-right: 45px;
+                width: 100%;
+            }
+            .password-toggle {
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 35px;
+                height: 35px;
+                font-size: 1em;
+            }
+            button { 
+                width: 100%;
+                padding: 13px;
+                font-size: 0.95em;
+                margin-top: 10px;
+                border-radius: 8px;
+                font-weight: 600;
+                contact-action: manipulation;
+            }
+            button:hover::before {
+                width: 200px;
+                height: 200px;
+            }
+            button:hover {
+                transform: translateY(-1px);
+            }
+            .link {
+                font-size: 0.8em;
+            }
+            p {
+                font-size: 0.8em;
+                margin-top: 12px;
+                text-align: center;
+            }
+            div[style*="text-align: right"] {
+                text-align: center !important;
+            }
+            div[style*="text-align: right"] a {
+                font-size: 0.8em !important;
+                display: inline-block;
+                margin-top: 8px;
+            }
+        }
+
+        /* Tablet landscape */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .box {
+                width: min(90vw, 400px);
+            }
+            h2 {
+                font-size: 1.4em;
+            }
+            input, select {
+                padding: 12px;
+                margin: 12px 0;
+            }
+        }
+
+        /* Extra small phones */
+        @media (max-height: 600px) {
+            .box {
+                padding: 15px 12px;
+            }
+            h2 {
+                font-size: 1em;
+                margin-bottom: 10px;
+            }
+            input, select {
+                padding: 10px;
+                margin: 8px 0;
+                font-size: 14px;
+            }
+            button {
+                padding: 11px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            input, select, button {
+                min-height: 44px;
+            }
+            .password-toggle {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            button:active {
+                background: linear-gradient(45deg, #0056b3, #003d82);
+            }
         }
         
         /* Icons for roles */
@@ -254,7 +444,6 @@ if (isset($_POST['login'])) {
 <select name="role" required>
                 <option value="mahasiswa">👨‍🎓 Daftar sebagai: Mahasiswa</option>
                 <option value="dosen">👨‍🏫 Daftar sebagai: Dosen</option>
-                <option value="admin">👨‍💼 Daftar sebagai: Admin</option>
             </select>
             <input type="text" name="nama" placeholder="Nama Lengkap" required>
             <input type="text" name="nim" placeholder="NIM / NIDN / Username" required>
