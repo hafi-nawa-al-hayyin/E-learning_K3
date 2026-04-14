@@ -6,7 +6,18 @@ let countdownInterval = null;
 let remedialData = {};
 
 // Get user role from data attribute
-const currentRole = document.body.getAttribute("data-user-role") || "mahasiswa";
+const bodyElement = document.body || document.getElementsByTagName("body")[0];
+const currentRole = bodyElement
+  ? bodyElement.getAttribute("data-user-role") || "mahasiswa"
+  : "mahasiswa";
+
+function normalizeHrefPath(href) {
+  try {
+    return new URL(href, window.location.origin).pathname;
+  } catch (err) {
+    return href || "";
+  }
+}
 
 // ================= MOBILE MENU TOGGLE =================
 function toggleMobileMenu() {
@@ -16,14 +27,122 @@ function toggleMobileMenu() {
   }
 }
 
+// ================= BREADCRUMB & ACTIVE MENU HANDLER =================
+function initializeNavigation() {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  navLinks.forEach((link) => {
+    const href = link.getAttribute("href");
+    const linkPath = normalizeHrefPath(href);
+    if (href && currentPath === linkPath) {
+      link.classList.add("active");
+      updateBreadcrumb(link.getAttribute("data-page"));
+    } else {
+      link.classList.remove("active");
+    }
+  });
+}
+
+function updateBreadcrumb(page) {
+  const breadcrumbCurrent = document.getElementById("breadcrumbCurrent");
+  if (!breadcrumbCurrent) return;
+
+  const breadcrumbs = {
+    dashboard: "Beranda",
+    profil: "Profil Saya",
+    rekap: "Rekap Nilai",
+    skenario: "Atur Skenario",
+  };
+
+  if (breadcrumbs[page]) {
+    breadcrumbCurrent.textContent = breadcrumbs[page];
+  }
+}
+
+// ================= TABLE SEARCH & FILTER =================
+function filterTable(tableId, searchTerm) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+
+  const rows = table.querySelectorAll("tbody tr");
+  const searchLower = searchTerm.toLowerCase();
+
+  rows.forEach((row) => {
+    const text = row.innerText.toLowerCase();
+    const matches = text.includes(searchLower);
+    row.style.display = matches ? "" : "none";
+  });
+}
+
+function applyTableFilters(tableId) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+
+  // Determine which filters to use based on table ID
+  let statusFilterId, risikoFilterId, searchInputId;
+
+  if (tableId === "riwayatTable") {
+    statusFilterId = "filterStatus";
+    risikoFilterId = "filterRisiko";
+    searchInputId = "searchRiwayat";
+  } else if (tableId === "decisionTable") {
+    statusFilterId = "filterDecisionStatus";
+    risikoFilterId = "filterDecisionRisiko";
+    searchInputId = "searchDecision";
+  } else {
+    return;
+  }
+
+  const statusFilter = document.getElementById(statusFilterId);
+  const risikoFilter = document.getElementById(risikoFilterId);
+  const searchInput = document.getElementById(searchInputId);
+
+  const statusValue = statusFilter ? statusFilter.value.toLowerCase() : "";
+  const risikoValue = risikoFilter ? risikoFilter.value.toLowerCase() : "";
+  const searchValue = searchInput ? searchInput.value.toLowerCase() : "";
+
+  const rows = table.querySelectorAll("tbody tr");
+
+  rows.forEach((row) => {
+    let show = true;
+    const text = row.innerText.toLowerCase();
+
+    // Status filter (column 3 for riwayat, column 4 for decision)
+    if (statusValue && !text.includes(statusValue)) {
+      show = false;
+    }
+
+    // Risk filter (column 1 for both)
+    if (risikoValue && !text.includes(risikoValue)) {
+      show = false;
+    }
+
+    // Search filter
+    if (searchValue && !text.includes(searchValue)) {
+      show = false;
+    }
+
+    row.style.display = show ? "" : "none";
+  });
+}
+
 // Close mobile menu when a link is clicked
 document.addEventListener("DOMContentLoaded", function () {
+  // Initialize navigation
+  initializeNavigation();
+
   const mobileLinks = document.querySelectorAll(".nav-mobile a");
   mobileLinks.forEach((link) => {
     link.addEventListener("click", function () {
       const navMobile = document.getElementById("navMobile");
       if (navMobile) {
         navMobile.classList.remove("active");
+      }
+      // Update breadcrumb for mobile navigation
+      const page = this.getAttribute("data-page");
+      if (page) {
+        updateBreadcrumb(page);
       }
     });
   });
@@ -541,27 +660,33 @@ function ambilTindakan() {
 }
 
 // Load Chart.js untuk grafik
-const ctx = document.getElementById("grafikK3").getContext("2d");
-const chartK3 = new Chart(ctx, {
-  type: "doughnut",
-  data: {
-    labels: ["Lulus", "Gagal"],
-    datasets: [
-      {
-        data: [0, 0], // Will be updated via API
-        backgroundColor: ["#28a745", "#dc3545"],
-        borderWidth: 0,
-      },
-    ],
-  },
-  options: {
-    cutout: "70%",
-    plugins: { legend: { display: false } },
-  },
-});
+let chartK3 = null;
+const chartCanvas = document.getElementById("grafikK3");
+if (chartCanvas) {
+  const ctx = chartCanvas.getContext("2d");
+  chartK3 = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Lulus", "Gagal"],
+      datasets: [
+        {
+          data: [0, 0], // Will be updated via API
+          backgroundColor: ["#28a745", "#dc3545"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      cutout: "70%",
+      plugins: { legend: { display: false } },
+    },
+  });
+}
 
 // Initialize chart with data from data attributes
 function initializeChart() {
+  if (!chartK3) return;
+
   const lulus = parseInt(document.body.getAttribute("data-stats-lulus")) || 0;
   const gagal = parseInt(document.body.getAttribute("data-stats-gagal")) || 0;
 
@@ -575,6 +700,7 @@ function initializeChart() {
 function updateChartSummary(lulus, gagal) {
   const total = lulus + gagal;
   const summaryEl = document.getElementById("chartStatSummary");
+  if (!summaryEl) return;
 
   if (total === 0) {
     summaryEl.textContent = "Belum ada data simulasi";
@@ -595,8 +721,10 @@ async function refreshStatistikKelulusan() {
     const gagal = parseInt(stats.gagal) || 0;
     const total = parseInt(stats.total) || 0;
 
-    chartK3.data.datasets[0].data = [lulus, gagal];
-    chartK3.update();
+    if (chartK3) {
+      chartK3.data.datasets[0].data = [lulus, gagal];
+      chartK3.update();
+    }
 
     updateChartSummary(lulus, gagal);
   } catch (err) {
@@ -619,24 +747,32 @@ function showRemedialModal(data) {
   const steps = document.getElementById("correctionSteps");
   const resources = document.getElementById("learningResources");
 
-  // Set title
-  title.innerHTML = `📚 PEMBELAJARAN REMEDIAL: ${data.jenisRisiko}`;
+  if (!modal) return;
 
-  // Set analysis
-  analysis.innerHTML = generateErrorAnalysis(data);
+  if (title) {
+    title.innerHTML = `📚 PEMBELAJARAN REMEDIAL: ${data.jenisRisiko}`;
+  }
 
-  // Set correction steps
-  steps.innerHTML = generateCorrectionSteps(data);
+  if (analysis) {
+    analysis.innerHTML = generateErrorAnalysis(data);
+  }
 
-  // Set learning resources
-  resources.innerHTML = generateLearningResources(data);
+  if (steps) {
+    steps.innerHTML = generateCorrectionSteps(data);
+  }
+
+  if (resources) {
+    resources.innerHTML = generateLearningResources(data);
+  }
 
   // Setup 3D visualization
   setupRemedialVisualization(data);
 
   // Show modal
   modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
+  if (document.body) {
+    document.body.style.overflow = "hidden";
+  }
 }
 
 function closeRemedialModal() {
@@ -814,8 +950,9 @@ function setupRemedialVisualization(data) {
   const visualization = document.getElementById("remedialVisualization");
   const remedialText = document.getElementById("remedialText");
 
-  // Clear previous content
-  visualization.innerHTML = "";
+  if (visualization) {
+    visualization.innerHTML = "";
+  }
 
   switch (data.jenisRisiko) {
     case "Kebocoran Pipa Gas":
@@ -828,7 +965,9 @@ function setupRemedialVisualization(data) {
                 <a-text value="❌ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                 <a-text value="Gas Bocor" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
             `;
-      remedialText.setAttribute("value", "Area berbahaya - Evakuasi segera!");
+      if (remedialText) {
+        remedialText.setAttribute("value", "Area berbahaya - Evakuasi segera!");
+      }
       break;
 
     case "Korsleting Listrik":
@@ -842,7 +981,9 @@ function setupRemedialVisualization(data) {
                 <a-text value="⚡ KORLET!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                 <a-text value="JANGAN pakai air!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
             `;
-      remedialText.setAttribute("value", "Gunakan APAR CO2, bukan air!");
+      if (remedialText) {
+        remedialText.setAttribute("value", "Gunakan APAR CO2, bukan air!");
+      }
       break;
 
     case "Tumpahan Oli":
@@ -855,7 +996,9 @@ function setupRemedialVisualization(data) {
                 <a-text value="🛢️ TUMPAHAN" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                 <a-text value="Bahaya Licin!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
             `;
-      remedialText.setAttribute("value", "Gunakan Spill Kit untuk cleanup!");
+      if (remedialText) {
+        remedialText.setAttribute("value", "Gunakan Spill Kit untuk cleanup!");
+      }
       break;
 
     default:
@@ -865,6 +1008,8 @@ function setupRemedialVisualization(data) {
                 <a-text value="⚠️ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.8 0.8 0.8"></a-text>
                 <a-text value="Ikuti SOP K3" position="0 2.2 -2" align="center" color="#007bff" scale="0.6 0.6 0.6"></a-text>
             `;
-      remedialText.setAttribute("value", "Selalu prioritaskan keselamatan!");
+      if (remedialText) {
+        remedialText.setAttribute("value", "Selalu prioritaskan keselamatan!");
+      }
   }
 }

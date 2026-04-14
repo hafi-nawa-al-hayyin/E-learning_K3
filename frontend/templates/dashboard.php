@@ -18,15 +18,15 @@
     <div style="font-size: 1.4em; font-weight: bold; color: #ffffff;">K3-VirtuAI 🛡️</div>
 
     <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="index.php" style="color: #ffffff; text-decoration: none; font-weight: bold;">Dashboard</a>
+        <a href="index.php" class="nav-link nav-dashboard" data-page="dashboard" style="color: #ffffff; text-decoration: none; font-weight: bold;">📊 Dashboard</a>
 
         <?php if ($_SESSION['role'] === 'mahasiswa') : ?>
-            <a href="../backend/profil.php" style="color: #ffffff; text-decoration: none;">Profil Saya</a>
+            <a href="../backend/profil.php" class="nav-link nav-profil" data-page="profil" style="color: #ffffff; text-decoration: none;">👤 Profil Saya</a>
         <?php endif; ?>
 
         <?php if ($_SESSION['role'] === 'dosen' || $_SESSION['role'] === 'admin') : ?>
-            <a href="../backend/rekap_nilai.php" style="color: #ffffff; text-decoration: none;">Rekap Nilai</a>
-            <a href="../backend/admin_skenario_fixed.php" style="color: #ffffff; text-decoration: none;">Atur Skenario</a>
+            <a href="../backend/rekap_nilai.php" class="nav-link nav-rekap" data-page="rekap" style="color: #ffffff; text-decoration: none;">📈 Rekap Nilai</a>
+            <a href="../backend/admin_skenario_fixed.php" class="nav-link nav-skenario" data-page="skenario" style="color: #ffffff; text-decoration: none;">⚙️ Atur Skenario</a>
         <?php endif; ?>
 
         <div id="connectionStatus">Status: <span style="color:#28a745">● Terhubung</span></div>
@@ -37,19 +37,28 @@
 
 <!-- Mobile Navigation Menu -->
 <div class="nav-mobile" id="navMobile">
-    <a href="index.php">📊 Dashboard</a>
+    <a href="index.php" class="nav-link nav-dashboard" data-page="dashboard">📊 Dashboard</a>
     
     <?php if ($_SESSION['role'] === 'mahasiswa') : ?>
-        <a href="../backend/profil.php">👤 Profil Saya</a>
+        <a href="../backend/profil.php" class="nav-link nav-profil" data-page="profil">👤 Profil Saya</a>
     <?php endif; ?>
 
     <?php if ($_SESSION['role'] === 'dosen' || $_SESSION['role'] === 'admin') : ?>
-        <a href="../backend/rekap_nilai.php">📈 Rekap Nilai</a>
-        <a href="../backend/admin_skenario_fixed.php">⚙️ Atur Skenario</a>
+        <a href="../backend/rekap_nilai.php" class="nav-link nav-rekap" data-page="rekap">📈 Rekap Nilai</a>
+        <a href="../backend/admin_skenario_fixed.php" class="nav-link nav-skenario" data-page="skenario">⚙️ Atur Skenario</a>
     <?php endif; ?>
 
     <div id="statusMobile">Status: <span style="color:#28a745">● Terhubung</span></div>
     <a href="../backend/logout.php" style="color: #ffaaaa;">🚪 Keluar (<?php echo $_SESSION['nama']; ?>)</a>
+</div>
+
+<!-- Breadcrumb Navigation -->
+<div class="breadcrumb-container">
+    <nav class="breadcrumb" id="breadcrumb">
+        <a href="index.php" class="breadcrumb-link">🏠 Dashboard</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current" id="breadcrumbCurrent">Beranda</span>
+    </nav>
 </div>
 
 <div class="main-container">
@@ -183,7 +192,29 @@
             <?php endif; ?>
         </div>
 
-        <table>
+        <!-- Search and Filter Controls -->
+        <div class="search-filter-container">
+            <div class="search-box">
+                <input type="text" id="searchRiwayat" class="input-field" placeholder="🔍 Cari nama peserta, risiko, atau status..." onkeyup="filterTable('riwayatTable', this.value)">
+            </div>
+            <div class="filter-controls">
+                <select id="filterStatus" class="input-field" onchange="applyTableFilters('riwayatTable')" style="max-width: 150px;">
+                    <option value="">Semua Status</option>
+                    <option value="LULUS">✓ LULUS</option>
+                    <option value="GAGAL">✗ GAGAL</option>
+                </select>
+                <select id="filterRisiko" class="input-field" onchange="applyTableFilters('riwayatTable')" style="max-width: 150px;">
+                    <option value="">Semua Risiko</option>
+                    <option value="Tumpahan Oli">Tumpahan Oli</option>
+                    <option value="Bocor Pipa">Bocor Pipa</option>
+                    <option value="Korsleting Listrik">Korsleting Listrik</option>
+                    <option value="Mesin Terpukul">Mesin Terpukul</option>
+                    <option value="APD Rusak">APD Rusak</option>
+                </select>
+            </div>
+        </div>
+
+        <table id="riwayatTable">
             <thead>
                 <tr>
                    <th>Nama Peserta</th>
@@ -239,7 +270,29 @@
     <div class="card">
         <div class="section-title">📋 Riwayat Keputusan Pengguna (Decision Log)</div>
 
-        <table>
+        <!-- Search and Filter Controls for Decision Logs -->
+        <div class="search-filter-container">
+            <div class="search-box">
+                <input type="text" id="searchDecision" class="input-field" placeholder="🔍 Cari nama peserta, risiko, atau tindakan..." onkeyup="filterTable('decisionTable', this.value)">
+            </div>
+            <div class="filter-controls">
+                <select id="filterDecisionStatus" class="input-field" onchange="applyTableFilters('decisionTable')" style="max-width: 150px;">
+                    <option value="">Semua Status</option>
+                    <option value="LULUS">✓ LULUS</option>
+                    <option value="GAGAL">✗ GAGAL</option>
+                </select>
+                <select id="filterDecisionRisiko" class="input-field" onchange="applyTableFilters('decisionTable')" style="max-width: 150px;">
+                    <option value="">Semua Risiko</option>
+                    <option value="Tumpahan Oli">Tumpahan Oli</option>
+                    <option value="Bocor Pipa">Bocor Pipa</option>
+                    <option value="Korsleting Listrik">Korsleting Listrik</option>
+                    <option value="Mesin Terpukul">Mesin Terpukul</option>
+                    <option value="APD Rusak">APD Rusak</option>
+                </select>
+            </div>
+        </div>
+
+        <table id="decisionTable">
             <thead>
                 <tr>
                    <th>Nama Peserta</th>

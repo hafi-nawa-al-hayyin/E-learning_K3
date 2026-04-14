@@ -79,7 +79,8 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Multi-User - Simulasi K3</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"></style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
@@ -166,10 +167,16 @@ if (isset($_POST['login'])) {
             display: flex;
             align-items: center;
             justify-content: center;
+            line-height: 1;
         }
         .password-toggle:hover {
             background: rgba(0,123,255,0.1);
             color: #0056b3;
+        }
+        .password-toggle i {
+            vertical-align: middle;
+            line-height: 1;
+            display: block;
         }
         input::placeholder { color: #6c757d; }
         input:focus, select:focus { 
@@ -426,7 +433,7 @@ if (isset($_POST['login'])) {
             <div class="password-container">
                 <input type="password" name="password" id="login-password" placeholder="Masukkan Password" required>
                 <button type="button" class="password-toggle" onclick="togglePassword('login-password')" title="Tampilkan/Sembunyikan Password">
-                    👁️
+                    <i class="fas fa-eye"></i>
                 </button>
             </div>
             <div style="text-align: right; margin: 10px 0;">
@@ -450,7 +457,7 @@ if (isset($_POST['login'])) {
             <div class="password-container">
                 <input type="password" name="password" id="register-password" placeholder="Password" required>
                 <button type="button" class="password-toggle" onclick="togglePassword('register-password')" title="Tampilkan/Sembunyikan Password">
-                    👁️
+                    <i class="fas fa-eye"></i>
                 </button>
             </div>
             <button type="submit" name="register">DAFTAR</button>
@@ -478,11 +485,11 @@ if (isset($_POST['login'])) {
             
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
-                toggleButton.innerHTML = '🙈';
+                toggleButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
                 toggleButton.title = 'Sembunyikan Password';
             } else {
                 passwordInput.type = 'password';
-                toggleButton.innerHTML = '👁️';
+                toggleButton.innerHTML = '<i class="fas fa-eye"></i>';
                 toggleButton.title = 'Tampilkan Password';
             }
         }
