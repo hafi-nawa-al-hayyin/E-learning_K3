@@ -44,7 +44,7 @@ if (isset($_POST['update_password'])) {
         body { font-family: Segoe UI, sans-serif; background: #1a1a2e; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .box { background: #16213e; padding: 30px; border-radius: 10px; width: 350px; text-align: center; border: 1px solid #0f3460;}
         input { width: 100%; padding: 10px; margin: 10px 0; background: #1a1a2e; border: 1px solid #0f3460; color: #fff; border-radius: 5px; box-sizing: border-box;}
-        button { width: 100%; padding: 10px; background: #00ff41; border: none; color: #1a1a2e; font-weight: bold; border-radius: 5px; cursor: pointer;}
+        button { width: 100%; padding: 10px; background: #3b82f6; border: none; color: white; font-weight: bold; border-radius: 5px; cursor: pointer;}
         
         /* Password field with toggle */
         .password-container {
@@ -63,7 +63,7 @@ if (isset($_POST['update_password'])) {
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: #00ff41;
+            color: #3b82f6;
             cursor: pointer;
             font-size: 1.1em;
             padding: 5px;

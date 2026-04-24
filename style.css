@@ -3,7 +3,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin-bottom: 20px;
-  background: #16213e;
+  background: #04070d;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -12,11 +12,11 @@ th,
 td {
   padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #0f3460;
+  border-bottom: 1px solid #1e40af;
 }
 
 th {
-  background-color: #e94560;
+  background-color: #1e40af;
   color: white;
   text-transform: uppercase;
   font-size: 0.8em;
@@ -24,13 +24,13 @@ th {
 }
 
 tr:hover {
-  background-color: #1f2d4d;
+  background-color: #1e3a8a;
   transition: 0.2s;
 }
 
 /* Zebra biar lebih readable */
 tbody tr:nth-child(even) {
-  background-color: #14213a;
+  background-color: #0f172a;
 }
 
 /* ================= CONTAINER ================= */
@@ -52,7 +52,7 @@ tbody tr:nth-child(even) {
 
 /* ================= CARD ================= */
 .card {
-  background: #16213e;
+  background: #04070d;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -76,31 +76,31 @@ tbody tr:nth-child(even) {
 }
 
 .btn-start {
-  background: #00ff41;
-  color: black;
+  background: #3b82f6;
+  color: white;
 }
 
 .btn-start:hover {
-  background: #00cc33;
+  background: #2563eb;
 }
 
 .btn-emergency {
-  background: #e94560;
+  background: #1e40af;
   color: white;
 }
 
 .btn-emergency:hover {
-  background: #c5304a;
+  background: #1d4ed8;
 }
 
 .btn-outline {
-  border: 1px solid #e94560;
+  border: 1px solid #3b82f6;
   background: transparent;
-  color: #e94560;
+  color: #3b82f6;
 }
 
 .btn-outline:hover {
-  background: #e94560;
+  background: #3b82f6;
   color: white;
 }
 
@@ -109,7 +109,7 @@ tbody tr:nth-child(even) {
   padding: 10px;
   border-radius: 8px;
   border: none;
-  background: #0f3460;
+  background: #0f172a;
   color: white;
 }
 
@@ -118,7 +118,7 @@ tbody tr:nth-child(even) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #0f3460;
+  background: #04070d;
   padding: 15px 20px;
 }
 
@@ -128,7 +128,7 @@ tbody tr:nth-child(even) {
 }
 
 .status-online {
-  color: #00ff41;
+  color: #3b82f6;
 }
 
 /* ================= SIMULATION ================= */
@@ -143,7 +143,7 @@ tbody tr:nth-child(even) {
   position: absolute;
   top: 20px;
   left: 20px;
-  background: rgba(233, 69, 96, 0.9);
+  background: rgba(30, 64, 175, 0.9);
   color: white;
   padding: 10px 15px;
   border-radius: 8px;
@@ -194,8 +194,8 @@ tbody tr:nth-child(even) {
 .kubus-listrik {
   width: 45px;
   height: 45px;
-  background-color: #8b0000; /* Merah gelap box panel */
-  border: 2px solid #ffcc00; /* Outline kuning biar kontras */
+  background-color: #1e40af; /* Biru gelap box panel */
+  border: 2px solid #3b82f6; /* Outline biru biar kontras */
   position: absolute;
   border-radius: 4px;
   z-index: 2;

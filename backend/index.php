@@ -97,33 +97,33 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
     
     <style>
         * { box-sizing: border-box; }
-        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #ffffff; color: #000000; }
+        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #04070d; color: #e5f0ff; }
         
-        .nav { position: sticky; top: 0; z-index: 999; background: #000000; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333333; }
+        .nav { position: sticky; top: 0; z-index: 999; background: #04070d; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #1e40af; }
         .main-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
 
-        .card { background: #ffffff; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #007bff; box-shadow: 0 4px 8px rgba(0,123,255,0.1); }
+        .card { background: #0f172a; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #3b82f6; box-shadow: 0 4px 8px rgba(59,130,246,0.1); }
         .section-title { margin-bottom: 15px; font-size: 1.1em; color: #007bff; font-weight: bold; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #007bff; color: #ffffff; text-align: left; padding: 10px; font-size: 0.9em; }
+        th { background: #1e40af; color: #e5f0ff; text-align: left; padding: 10px; font-size: 0.9em; }
         td { padding: 10px; border-bottom: 1px solid #dee2e6; font-size: 0.85em; }
 
-        .simulation-window { background: #f8f9fa; height: 450px; border-radius: 12px; position: relative; overflow: hidden; border: 3px solid #007bff; transition: 0.3s; }
+        .simulation-window { background: #04070d; height: 450px; border-radius: 12px; position: relative; overflow: hidden; border: 3px solid #3b82f6; transition: 0.3s; }
         
         .hazard-overlay { position: absolute; top: 15%; left: 50%; transform: translate(-50%, -50%); color: #dc3545; font-weight: bold; font-size: 1.8em; display: none; text-shadow: 0 0 10px rgba(255,255,255,0.8); z-index: 999; text-align: center; pointer-events: none; width: 100%; }
 
         .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; color: white; margin-bottom: 10px; }
-        .btn-start { background: #dc3545; }
-        .btn-start:hover { background: #c82333; }
-        .btn-emergency { background: #007bff; }
-        .btn-emergency:hover { background: #0056b3; }
-        .btn-delete { background: #dc3545; padding: 5px 10px; font-size: 0.8em; border-radius: 4px; text-decoration: none; color: white; }
-        .btn-delete:hover { background: #c82333; }
+        .btn-start { background: #3b82f6; }
+        .btn-start:hover { background: #2563eb; }
+        .btn-emergency { background: #1e40af; }
+        .btn-emergency:hover { background: #1d4ed8; }
+        .btn-delete { background: #1e40af; padding: 5px 10px; font-size: 0.8em; border-radius: 4px; text-decoration: none; color: white; }
+        .btn-delete:hover { background: #1d4ed8; }
         
-        .input-field { padding: 10px; background: #ffffff; border: 2px solid #007bff; color: #000000; border-radius: 5px; margin-bottom: 10px; width: 100%; }
+        .input-field { padding: 10px; background: #0f172a; border: 2px solid #3b82f6; color: #e5f0ff; border-radius: 5px; margin-bottom: 10px; width: 100%; }
         .input-field:focus { border-color: #0056b3; box-shadow: 0 0 5px rgba(0,123,255,0.3); }
-        .ai-status { background: #e9ecef; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85em; color: #007bff; border-left: 4px solid #007bff; }
+        .ai-status { background: #0f172a; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.85em; color: #3b82f6; border-left: 4px solid #3b82f6; }
     </style>
 </head>
 <body>
@@ -188,7 +188,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                                 <td>".$lu['nim_nidn']."</td>
                                 <td>".$lu['role']."</td>
                                 <td style='text-align:center;'>
-                                    <a href='index.php?hapus_user=".$lu['id_user']."' style='color:#e74c3c; text-decoration:none;' onclick='return confirm(\"Hapus user ini?\")'>Hapus</a>
+                                    <a href='index.php?hapus_user=".$lu['id_user']."' style='color:#1e40af; text-decoration:none;' onclick='return confirm(\"Hapus user ini?\")'>Hapus</a>
                                 </td>
                               </tr>";
                     }
@@ -215,7 +215,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                 <a-entity id="indukMesinPipa" visible="true">
                     <a-box id="kubusMesin" width="0.8" height="0.8" depth="0.8" color="#2c3e50" position="0 0.4 -3"></a-box>
                     <a-cylinder radius="0.06" height="1.2" color="#7f8c8d" position="0 1.2 -3"></a-cylinder>
-                    <a-sphere radius="0.09" color="#e74c3c" position="0 1.8 -3"></a-sphere>
+                    <a-sphere radius="0.09" color="#1e40af" position="0 1.8 -3"></a-sphere>
                     <a-cylinder id="pipaHorizontal" radius="0.06" height="3" color="#7f8c8d" position="1.5 1.8 -3" rotation="0 0 90"></a-cylinder>
                     <a-circle id="efekGenanganOli" radius="1.2" color="#f1c40f" position="0 0.01 -3" rotation="-90 0 0" opacity="0.8" visible="false" onclick="ambilTindakan()" animation="property: scale; from: 1 1 1; to: 1.15 1.15 1.15; dur: 800; loop: true; dir: alternate;"></a-circle>
                     <a-sphere id="efekBocorPipa" radius="0.3" color="#e67e22" position="1.5 1.8 -3" opacity="0.7" visible="false" onclick="ambilTindakan()" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 700; loop: true; dir: alternate;"></a-sphere>
@@ -593,7 +593,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                     elHazard.innerHTML = "⚠️ BAHAYA: " + jenisRisikoAktif.toUpperCase();
                     elHazard.style.display = "block";
                 }
-                if (elSimWin) elSimWin.style.border = "3px solid #e74c3c";
+                if (elSimWin) elSimWin.style.border = "3px solid #1e40af";
                 
                 // Trigger animasi 3D A-Frame
                 try {
@@ -737,7 +737,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
             labels: ['Lulus', 'Gagal'],
             datasets: [{
                 data: [<?php echo $jumlahLulus; ?>, <?php echo $jumlahGagal; ?>],
-                backgroundColor: ['#28a745', '#dc3545'],
+                backgroundColor: ['#3b82f6', '#1e40af'],
                 borderWidth: 0
             }]
         },
@@ -1212,7 +1212,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                     <a-box width="0.8" height="0.8" depth="0.8" color="#2c3e50" position="0 0.4 -3"></a-box>
                     <a-cylinder radius="0.06" height="1.2" color="#7f8c8d" position="0 1.2 -3"></a-cylinder>
                     <a-cylinder radius="0.06" height="3" color="#7f8c8d" position="1.5 1.8 -3" rotation="0 0 90"></a-cylinder>
-                    <a-sphere radius="0.3" color="#e74c3c" position="1.5 1.8 -3" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                    <a-sphere radius="0.3" color="#1e40af" position="1.5 1.8 -3" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
                     <a-text value="❌ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                     <a-text value="Gas Bocor" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
                 `;
@@ -1225,7 +1225,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                     <a-box width="1" height="0.6" depth="0.4" color="#34495e" position="0 0.3 -3"></a-box>
                     <a-cylinder radius="0.03" height="0.8" color="#f39c12" position="-0.2 0.8 -3" rotation="15 0 0"></a-cylinder>
                     <a-cylinder radius="0.03" height="0.8" color="#f39c12" position="0.2 0.8 -3" rotation="-15 0 0"></a-cylinder>
-                    <a-sphere radius="0.15" color="#e74c3c" position="0 0.6 -2.8" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;"></a-sphere>
+                    <a-sphere radius="0.15" color="#1e40af" position="0 0.6 -2.8" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;"></a-sphere>
                     <a-sphere radius="0.1" color="#ffaa00" position="-0.1 0.7 -2.9" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;"></a-sphere>
                     <a-text value="⚡ KORSLET!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                     <a-text value="JANGAN pakai air!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
@@ -1239,7 +1239,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
                     <a-plane position="0 0.01 -3" rotation="-90 0 0" width="4" height="4" color="#2c3e50" opacity="0.8"></a-plane>
                     <a-circle radius="1.5" color="#f1c40f" position="0 0.02 -3" rotation="-90 0 0" opacity="0.7" animation="property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1200; loop: true; dir: alternate;"></a-circle>
                     <a-cylinder radius="0.1" height="0.05" color="#34495e" position="0.5 0.1 -2.5"></a-cylinder>
-                    <a-cylinder radius="0.08" height="0.03" color="#e74c3c" position="-0.3 0.08 -2.8" rotation="90 0 0"></a-cylinder>
+                    <a-cylinder radius="0.08" height="0.03" color="#1e40af" position="-0.3 0.08 -2.8" rotation="90 0 0"></a-cylinder>
                     <a-text value="🛢️ TUMPAHAN" position="0 2.5 -2" align="center" color="#dc3545" scale="0.6 0.6 0.6"></a-text>
                     <a-text value="Bahaya Licin!" position="0 2.2 -2" align="center" color="#007bff" scale="0.5 0.5 0.5"></a-text>
                 `;
@@ -1249,7 +1249,7 @@ if (isset($_POST['kosongkan_riwayat']) && $_SESSION['role'] === 'admin') {
             default:
                 // Visualisasi umum bahaya
                 visualization.innerHTML = `
-                    <a-sphere radius="0.8" color="#e74c3c" position="0 1 -3" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                    <a-sphere radius="0.8" color="#1e40af" position="0 1 -3" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
                     <a-text value="⚠️ BAHAYA!" position="0 2.5 -2" align="center" color="#dc3545" scale="0.8 0.8 0.8"></a-text>
                     <a-text value="Ikuti SOP K3" position="0 2.2 -2" align="center" color="#007bff" scale="0.6 0.6 0.6"></a-text>
                 `;

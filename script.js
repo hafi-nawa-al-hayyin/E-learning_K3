@@ -148,7 +148,7 @@ function startSim() {
       document.getElementById("hazardText").innerHTML =
         "⚠️ BAHAYA: " + jenisRisikoAktif.toUpperCase();
       document.getElementById("hazardText").style.display = "block";
-      document.getElementById("simWindow").style.border = "3px solid #e74c3c";
+      document.getElementById("simWindow").style.border = "3px solid #1e40af";
 
       startTime = new Date().getTime();
     }
@@ -204,7 +204,7 @@ async function tampilkanRiwayat() {
 
     data.forEach((item) => {
       const statusColor =
-        item.status_kelulusan === "LULUS" ? "#00ff41" : "#e74c3c";
+        item.status_kelulusan === "LULUS" ? "#3b82f6" : "#1e40af";
 
       const row = `
         <tr>

@@ -23,16 +23,16 @@ include 'koneksi.php';
     
     <style>
         * { box-sizing: border-box; }
-        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #ffffff; color: #000000; }
+        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #04070d; color: #e5f0ff; }
         
         .nav { position: sticky; top: 0; z-index: 999; background: #000000; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333333; }
         .main-container { padding: 20px; max-width: 1200px; margin: 0 auto; }
 
-        .card { background: #ffffff; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #007bff; box-shadow: 0 4px 8px rgba(0,123,255,0.1); }
+        .card { background: #0f172a; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 2px solid #3b82f6; box-shadow: 0 4px 8px rgba(59,130,246,0.1); }
         .section-title { margin-bottom: 15px; font-size: 1.1em; color: #007bff; font-weight: bold; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #007bff; color: #ffffff; text-align: left; padding: 12px; font-size: 0.9em; }
+        th { background: #1e40af; color: #e5f0ff; text-align: left; padding: 12px; font-size: 0.9em; }
         td { padding: 12px; border-bottom: 1px solid #dee2e6; font-size: 0.85em; }
         tr:hover { background: #f8f9fa; }
 

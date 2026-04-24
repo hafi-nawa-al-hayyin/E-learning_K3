@@ -86,12 +86,12 @@ $dGagal = mysqli_fetch_assoc($qGagal);
     <title>Profil Saya - K3-VirtuAI</title>
     <style>
         * { box-sizing: border-box; }
-        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #ffffff; color: #000000; }
+        body { font-family: "Segoe UI", sans-serif; margin: 0; background: #04070d; color: #e5f0ff; }
         
         .nav { position: sticky; top: 0; z-index: 999; background: #000000; padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #333333; }
         .main-container { padding: 40px 20px; max-width: 800px; margin: 0 auto; }
 
-        .card { background: #ffffff; padding: 30px; border-radius: 12px; border: 2px solid #007bff; box-shadow: 0 4px 8px rgba(0,123,255,0.1); margin-bottom: 20px; }
+        .card { background: #0f172a; padding: 30px; border-radius: 12px; border: 2px solid #3b82f6; box-shadow: 0 4px 8px rgba(59,130,246,0.1); margin-bottom: 20px; }
         .section-title { margin-bottom: 20px; font-size: 1.3em; color: #007bff; font-weight: bold; border-bottom: 1px solid #dee2e6; padding-bottom: 10px;}
 
         .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 15px; margin-bottom: 20px; font-size: 0.95em; }
@@ -99,11 +99,11 @@ $dGagal = mysqli_fetch_assoc($qGagal);
         .info-value { color: #000000; }
 
         .stat-grid { display: flex; gap: 15px; margin-bottom: 30px; text-align: center; }
-        .stat-box { flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6; }
+        .stat-box { flex: 1; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #1e40af; }
         .stat-number { font-size: 1.8em; font-weight: bold; color: #007bff; }
         .stat-label { font-size: 0.8em; color: #6c757d; margin-top: 5px; }
 
-        .input-field { padding: 12px; background: #ffffff; border: 2px solid #007bff; color: #000000; border-radius: 6px; margin-bottom: 15px; width: 100%; font-size: 0.9em; }
+        .input-field { padding: 12px; background: #0f172a; border: 2px solid #3b82f6; color: #e5f0ff; border-radius: 6px; margin-bottom: 15px; width: 100%; font-size: 0.9em; }
         .input-field:focus { border-color: #0056b3; box-shadow: 0 0 5px rgba(0,123,255,0.3); }
         
         /* Password field with toggle */
@@ -152,8 +152,8 @@ $dGagal = mysqli_fetch_assoc($qGagal);
             color: #0056b3;
         }
         .btn { padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; transition: 0.3s; color: white; font-size: 0.95em; }
-        .btn-update { background: #28a745; color: #ffffff; }
-        .btn-update:hover { background: #218838; }
+        .btn-update { background: #3b82f6; color: #e5f0ff; }
+        .btn-update:hover { background: #2563eb; }
     </style>
 </head>
 <body>
@@ -193,11 +193,11 @@ $dGagal = mysqli_fetch_assoc($qGagal);
                 <div class="stat-label">Total Percobaan</div>
             </div>
             <div class="stat-box">
-                <div class="stat-number" style="color: #00ff41;"><?php echo $dLulus['total']; ?></div>
+                <div class="stat-number" style="color: #3b82f6;"><?php echo $dLulus['total']; ?></div>
                 <div class="stat-label">Berhasil (Lulus)</div>
             </div>
             <div class="stat-box">
-                <div class="stat-number" style="color: #e74c3c;"><?php echo $dGagal['total']; ?></div>
+                <div class="stat-number" style="color: #1e40af;"><?php echo $dGagal['total']; ?></div>
                 <div class="stat-label">Gagal</div>
             </div>
         </div>

@@ -21,12 +21,12 @@ $skenario_sekarang = $data['skenario_aktif'];
     <title>Panel Admin - Atur Skenario K3</title>
     <style>
         body { font-family: Arial, sans-serif; background: #1a1a1a; color: white; text-align: center; padding: 50px; }
-        .box { background: #2c2c2c; padding: 30px; border-radius: 10px; display: inline-block; border: 1px solid #00ff41; }
+        .box { background: #2c2c2c; padding: 30px; border-radius: 10px; display: inline-block; border: 1px solid #3b82f6; }
         select, button { padding: 10px; font-size: 16px; margin: 10px; border-radius: 5px; }
         select { background: #333; color: white; border: 1px solid #555; }
-        button { background: #00ff41; color: black; font-weight: bold; cursor: pointer; border: none; }
-        button:hover { background: #00cc33; }
-        .pesan { color: #00ff41; font-weight: bold; }
+        button { background: #3b82f6; color: white; font-weight: bold; cursor: pointer; border: none; }
+        button:hover { background: #2563eb; }
+        .pesan { color: #3b82f6; font-weight: bold; }
     </style>
 </head>
 <body>
