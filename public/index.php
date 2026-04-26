@@ -1,10 +1,10 @@
 <?php
 // Main application entry point
-require_once '../config/database.php';
-require_once '../backend/controllers/DashboardController.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../backend/controllers/DashboardController.php';
 
 initSession();
-requireLogin();
+requireLogin('../backend/login.php');
 
 $controller = new DashboardController();
 $controller->index();

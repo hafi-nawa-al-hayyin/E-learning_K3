@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 header('Content-Type: application/json');
 
 class SimulationAPI {
@@ -69,26 +69,39 @@ class SimulationAPI {
 
     private function saveSimulationResult() {
         $user = getCurrentUser();
-        $data = json_decode(file_get_contents('php://input'), true);
+        $data = $this->getRequestData();
+        $targetUserId = $this->resolveTargetUserId($user, $data);
+        $jenisRisiko = (string) ($data['jenis_risiko'] ?? '');
+        $skor = (int) ($data['skor'] ?? 0);
+        $statusKelulusan = (string) ($data['status_kelulusan'] ?? '');
+        $rekomendasi = (string) ($data['rekomendasi'] ?? '');
+        $konsekuensi = (string) ($data['konsekuensi'] ?? '');
+        $kategoriRisiko = (string) ($data['kategori_risiko'] ?? '');
+
+        if (!$targetUserId || $jenisRisiko === '' || !isset($data['skor']) || $statusKelulusan === '') {
+            http_response_code(422);
+            echo json_encode(['status' => 'error', 'message' => 'Data simulasi tidak lengkap.']);
+            return;
+        }
 
         // Save simulation result to database
         $query = "INSERT INTO simulasi (id_user, jenis_risiko, skor, status_kelulusan, rekomendasi, konsekuensi, kategori_risiko)
                   VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->db, $query);
-        mysqli_stmt_bind_param($stmt, 'issssss',
-            $user['id'],
-            $data['jenis_risiko'],
-            $data['skor'],
-            $data['status_kelulusan'],
-            $data['rekomendasi'],
-            $data['konsekuensi'],
-            $data['kategori_risiko']
+        mysqli_stmt_bind_param($stmt, 'isissss',
+            $targetUserId,
+            $jenisRisiko,
+            $skor,
+            $statusKelulusan,
+            $rekomendasi,
+            $konsekuensi,
+            $kategoriRisiko
         );
 
         if (mysqli_stmt_execute($stmt)) {
             // Also save to decision logs
-            $this->saveDecisionLog($data);
+            $this->saveDecisionLog($targetUserId, $data);
 
             echo json_encode(['status' => 'success']);
         } else {
@@ -97,23 +110,52 @@ class SimulationAPI {
         }
     }
 
-    private function saveDecisionLog($data) {
-        $user = getCurrentUser();
+    private function saveDecisionLog($targetUserId, $data) {
+        $jenisRisiko = (string) ($data['jenis_risiko'] ?? '');
+        $tindakanDipilih = (string) ($data['tindakan_dipilih'] ?? '');
+        $skor = (int) ($data['skor'] ?? 0);
+        $statusKelulusan = (string) ($data['status_kelulusan'] ?? '');
+        $kategoriRisiko = (string) ($data['kategori_risiko'] ?? '');
 
         $query = "INSERT INTO decision_logs (id_user, jenis_risiko, tindakan_dipilih, skor, status_kelulusan, kategori_risiko)
                   VALUES (?, ?, ?, ?, ?, ?)";
 
         $stmt = mysqli_prepare($this->db, $query);
         mysqli_stmt_bind_param($stmt, 'ississ',
-            $user['id'],
-            $data['jenis_risiko'],
-            $data['tindakan_dipilih'],
-            $data['skor'],
-            $data['status_kelulusan'],
-            $data['kategori_risiko']
+            $targetUserId,
+            $jenisRisiko,
+            $tindakanDipilih,
+            $skor,
+            $statusKelulusan,
+            $kategoriRisiko
         );
 
         mysqli_stmt_execute($stmt);
+    }
+
+    private function getRequestData() {
+        $rawInput = file_get_contents('php://input');
+        $jsonData = json_decode($rawInput, true);
+
+        if (json_last_error() === JSON_ERROR_NONE && is_array($jsonData)) {
+            return $jsonData;
+        }
+
+        if (!empty($_POST)) {
+            return $_POST;
+        }
+
+        return [];
+    }
+
+    private function resolveTargetUserId($user, $data) {
+        $requestedUserId = isset($data['id_user']) ? (int) $data['id_user'] : 0;
+
+        if ($requestedUserId > 0 && in_array($user['role'], ['admin', 'dosen'], true)) {
+            return $requestedUserId;
+        }
+
+        return (int) ($user['id'] ?? 0);
     }
 
     private function getStatistics() {
@@ -160,7 +202,7 @@ class SimulationAPI {
 }
 
 // Initialize and handle request
-requireLogin();
+requireLogin('../login.php');
 $api = new SimulationAPI();
 $api->handleRequest();
 ?>

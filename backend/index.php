@@ -1,6 +1,7 @@
 <?php
 // 1. Session ditaruh paling atas agar tidak error "headers already sent"
-session_start();
+require_once __DIR__ . '/../config/database.php';
+initSession();
 
 // 2. Cek apakah user sudah login, jika belum lempar ke login.php
 if (!isset($_SESSION['id_user'])) {

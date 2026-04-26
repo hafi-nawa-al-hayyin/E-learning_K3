@@ -1,5 +1,6 @@
 <?php 
-session_start();
+require_once __DIR__ . '/../config/database.php';
+initSession();
 // Cek apakah user sudah login
 if (!isset($_SESSION['id_user'])) {
     header("Location: login.php");

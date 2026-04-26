@@ -20,6 +20,12 @@ const bodyElement = document.body || document.getElementsByTagName("body")[0];
 const currentRole = bodyElement
   ? bodyElement.getAttribute("data-user-role") || "mahasiswa"
   : "mahasiswa";
+const apiUrl = bodyElement
+  ? bodyElement.getAttribute("data-api-url") || "../backend/api/simulation.php"
+  : "../backend/api/simulation.php";
+const dashboardUrl = bodyElement
+  ? bodyElement.getAttribute("data-dashboard-url") || "index.php"
+  : "index.php";
 
 function normalizeHrefPath(href) {
   try {
@@ -27,6 +33,46 @@ function normalizeHrefPath(href) {
   } catch (err) {
     return href || "";
   }
+}
+
+function buildApiUrl(action) {
+  return `${apiUrl}?action=${encodeURIComponent(action)}`;
+}
+
+function isSuccessfulResponse(data) {
+  return data && (data.status === "success" || data.status === "sukses");
+}
+
+function getResponseMessage(data, fallbackMessage) {
+  if (!data) return fallbackMessage;
+  return data.message || data.pesan || data.error || fallbackMessage;
+}
+
+function redirectToDashboard() {
+  window.location.href = dashboardUrl;
+}
+
+async function postJson(url, payload) {
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  let data = null;
+  try {
+    data = await response.json();
+  } catch (error) {
+    throw new Error("Respons server tidak valid.");
+  }
+
+  if (!response.ok) {
+    throw new Error(getResponseMessage(data, "Permintaan ke server gagal."));
+  }
+
+  return data;
 }
 
 // ================= MOBILE MENU TOGGLE =================
@@ -411,24 +457,20 @@ function autoFailTimeout() {
   let rekomendasi =
     "Tingkatkan kecepatan respons dan keputusan dalam kondisi darurat. Latihan berkala dan simulasi lebih sering akan membantu.";
 
-  // AJAX Mengirim data nilai simulasi ke database
-  let formData = new FormData();
-  formData.append("id_user", idPeserta);
-  formData.append("jenis_risiko", jenisRisikoAktif);
-  formData.append("skor", skor);
-  formData.append("status_kelulusan", "GAGAL");
-  formData.append("rekomendasi", rekomendasi);
-  formData.append("konsekuensi", konsekuensi);
-  formData.append("tindakan_dipilih", "Tidak ada tindakan (Waktu Habis)"); // Tambahan untuk decision log
-  formData.append("kategori_risiko", kategoriRisiko);
+  const payload = {
+    id_user: idPeserta,
+    jenis_risiko: jenisRisikoAktif,
+    skor: skor,
+    status_kelulusan: "GAGAL",
+    rekomendasi: rekomendasi,
+    konsekuensi: konsekuensi,
+    tindakan_dipilih: "Tidak ada tindakan (Waktu Habis)",
+    kategori_risiko: kategoriRisiko,
+  };
 
-  fetch("../backend/api/simulation.php?action=save_result", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
+  postJson(buildApiUrl("save_result"), payload)
     .then((data) => {
-      if (data.status === "sukses") {
+      if (isSuccessfulResponse(data)) {
         // Show personalized remedial modal instead of simple alert
         showRemedialModal({
           jenisRisiko: jenisRisikoAktif,
@@ -440,14 +482,14 @@ function autoFailTimeout() {
           alasanGagal: "Waktu habis tanpa tindakan pencegahan",
         });
       } else {
-        alert("Error: Gagal menyimpan data timeout");
-        window.location.reload();
+        alert(getResponseMessage(data, "Gagal menyimpan data timeout."));
+        redirectToDashboard();
       }
     })
     .catch((error) => {
       console.error("Error:", error);
-      alert("Terjadi kesalahan koneksi ke server!");
-      window.location.reload();
+      alert(error.message || "Terjadi kesalahan koneksi ke server!");
+      redirectToDashboard();
     });
 }
 
@@ -596,7 +638,7 @@ function ambilTindakan() {
 
   if (isNaN(indexTerpilih) || indexTerpilih < 0 || indexTerpilih > 3) {
     alert("Pilihan tidak valid! Simulasi dibatalkan.");
-    window.location.reload();
+    redirectToDashboard();
     return;
   }
 
@@ -614,27 +656,20 @@ function ambilTindakan() {
     modulRemedial = `\n\n📚 [MODUL PEMBELAJARAN REMEDIAL AI]:\nAnda gagal dalam simulasi ini. Pelajari kembali SOP penanganan '${jenisRisikoAktif}'. Selalu utamakan keselamatan diri terlebih dahulu dan pahami penggunaan APAR/Spill Kit yang sesuai dengan SOP K3.`;
   }
 
-  // AJAX Mengirim data nilai simulasi ke database
-  let formData = new FormData();
-  formData.append("id_user", idPeserta);
-  formData.append("jenis_risiko", jenisRisikoAktif);
-  formData.append("skor", hasilPilihan.skor);
-  formData.append(
-    "status_kelulusan",
-    hasilPilihan.skor >= 70 ? "LULUS" : "GAGAL",
-  );
-  formData.append("rekomendasi", hasilPilihan.rekomendasi);
-  formData.append("konsekuensi", hasilPilihan.konsekuensi);
-  formData.append("tindakan_dipilih", hasilPilihan.teks); // Tambahan untuk decision log
-  formData.append("kategori_risiko", kategoriRisiko); // Baru untuk metrik dosen
+  const payload = {
+    id_user: idPeserta,
+    jenis_risiko: jenisRisikoAktif,
+    skor: hasilPilihan.skor,
+    status_kelulusan: hasilPilihan.skor >= 70 ? "LULUS" : "GAGAL",
+    rekomendasi: hasilPilihan.rekomendasi,
+    konsekuensi: hasilPilihan.konsekuensi,
+    tindakan_dipilih: hasilPilihan.teks,
+    kategori_risiko: kategoriRisiko,
+  };
 
-  fetch("../backend/api/simulation.php?action=save_result", {
-    method: "POST",
-    body: formData,
-  })
-    .then((response) => response.json())
+  postJson(buildApiUrl("save_result"), payload)
     .then((data) => {
-      if (data.status === "sukses") {
+      if (isSuccessfulResponse(data)) {
         if (hasilPilihan.skor >= 70) {
           // Lulus - tampilkan alert sederhana
           let pesan = `✅ LULUS SIMULASI\n${"=".repeat(30)}\n`;
@@ -644,7 +679,7 @@ function ambilTindakan() {
           pesan += `🎉 Selamat! Anda telah menguasai penanganan ${jenisRisikoAktif}`;
 
           alert(pesan);
-          window.location.reload();
+          redirectToDashboard();
         } else {
           // Gagal - tampilkan modal remedial personalized
           showRemedialModal({
@@ -658,21 +693,21 @@ function ambilTindakan() {
           });
         }
       } else {
-        alert("Gagal menyimpan data: " + data.pesan);
-        window.location.reload();
+        alert(getResponseMessage(data, "Gagal menyimpan data simulasi."));
+        redirectToDashboard();
       }
     })
     .catch((error) => {
       console.error("Error:", error);
-      alert("Terjadi kesalahan koneksi ke server!");
-      window.location.reload();
+      alert(error.message || "Terjadi kesalahan koneksi ke server!");
+      redirectToDashboard();
     });
 }
 
 // Load Chart.js untuk grafik
 let chartK3 = null;
 const chartCanvas = document.getElementById("grafikK3");
-if (chartCanvas) {
+if (chartCanvas && typeof Chart !== "undefined") {
   const ctx = chartCanvas.getContext("2d");
   chartK3 = new Chart(ctx, {
     type: "doughnut",
@@ -724,13 +759,12 @@ function updateChartSummary(lulus, gagal) {
 
 async function refreshStatistikKelulusan() {
   try {
-    const response = await fetch("../backend/api/simulation.php?action=stats");
+    const response = await fetch(buildApiUrl("stats"));
     if (!response.ok) throw new Error("Gagal memuat statistik");
 
     const stats = await response.json();
     const lulus = parseInt(stats.lulus) || 0;
     const gagal = parseInt(stats.gagal) || 0;
-    const total = parseInt(stats.total) || 0;
 
     if (chartK3) {
       chartK3.data.datasets[0].data = [lulus, gagal];
@@ -990,12 +1024,14 @@ function start3DVisualization() {
     remedialText.setAttribute("value", "Visualisasi 3D sedang berjalan...");
   }
 }
+
+function setupRemedialVisualization(data) {
   const visualization = document.getElementById("remedialVisualization");
   const remedialText = document.getElementById("remedialText");
 
-  if (visualization) {
-    visualization.innerHTML = "";
-  }
+  if (!visualization) return;
+
+  visualization.innerHTML = "";
 
   switch (data.jenisRisiko) {
     case "Kebocoran Pipa Gas":

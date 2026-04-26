@@ -1,6 +1,7 @@
 <?php
 // Simulasi session untuk testing
-session_start();
+require_once __DIR__ . '/../config/database.php';
+initSession();
 $_SESSION['id_user'] = 2; // ID mahasiswa test
 $_SESSION['nama'] = 'Mahasiswa Test';
 $_SESSION['nim'] = '12345678';

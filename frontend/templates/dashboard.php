@@ -1,3 +1,12 @@
+<?php
+$assetBaseUrl = '../frontend/assets';
+$dashboardUrl = 'index.php';
+$profileUrl = '../backend/profil.php';
+$rekapUrl = '../backend/rekap_nilai.php';
+$scenarioUrl = '../backend/admin_skenario_fixed.php';
+$logoutUrl = '../backend/logout.php';
+$simulationApiUrl = '../backend/api/simulation.php';
+?>
 <!doctype html>
 <html lang="id">
 <head>
@@ -8,54 +17,54 @@
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <link rel="stylesheet" href="../frontend/assets/css/dashboard.css">
-    <link rel="stylesheet" href="../frontend/assets/css/mobile.css">
+    <link rel="stylesheet" href="<?php echo htmlspecialchars($assetBaseUrl . '/css/dashboard.css', ENT_QUOTES, 'UTF-8'); ?>">
+    <link rel="stylesheet" href="<?php echo htmlspecialchars($assetBaseUrl . '/css/mobile.css', ENT_QUOTES, 'UTF-8'); ?>">
 </head>
-<body class="dashboard-theme" data-user-role="<?php echo $_SESSION['role']; ?>" data-admin-scenario="<?php echo $skenario_aktif; ?>" data-stats-lulus="<?php echo $stats['lulus']; ?>" data-stats-gagal="<?php echo $stats['gagal']; ?>">
+<body class="dashboard-theme" data-user-role="<?php echo htmlspecialchars($_SESSION['role'], ENT_QUOTES, 'UTF-8'); ?>" data-admin-scenario="<?php echo htmlspecialchars($skenario_aktif, ENT_QUOTES, 'UTF-8'); ?>" data-stats-lulus="<?php echo (int) $stats['lulus']; ?>" data-stats-gagal="<?php echo (int) $stats['gagal']; ?>" data-api-url="<?php echo htmlspecialchars($simulationApiUrl, ENT_QUOTES, 'UTF-8'); ?>" data-dashboard-url="<?php echo htmlspecialchars($dashboardUrl, ENT_QUOTES, 'UTF-8'); ?>">
 
 <nav class="nav">
     <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
     <div class="nav-brand">K3-VirtuAI 🛡️</div>
 
     <div class="nav-actions">
-        <a href="index.php" class="nav-link nav-dashboard" data-page="dashboard">📊 Dashboard</a>
+        <a href="<?php echo htmlspecialchars($dashboardUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-dashboard" data-page="dashboard">📊 Dashboard</a>
 
         <?php if ($_SESSION['role'] === 'mahasiswa') : ?>
-            <a href="../backend/profil.php" class="nav-link nav-profil" data-page="profil">👤 Profil Saya</a>
+            <a href="<?php echo htmlspecialchars($profileUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-profil" data-page="profil">👤 Profil Saya</a>
         <?php endif; ?>
 
         <?php if ($_SESSION['role'] === 'dosen' || $_SESSION['role'] === 'admin') : ?>
-            <a href="../backend/rekap_nilai.php" class="nav-link nav-rekap" data-page="rekap">📈 Rekap Nilai</a>
-            <a href="../backend/admin_skenario_fixed.php" class="nav-link nav-skenario" data-page="skenario">⚙️ Atur Skenario</a>
+            <a href="<?php echo htmlspecialchars($rekapUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-rekap" data-page="rekap">📈 Rekap Nilai</a>
+            <a href="<?php echo htmlspecialchars($scenarioUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-skenario" data-page="skenario">⚙️ Atur Skenario</a>
         <?php endif; ?>
 
         <div id="connectionStatus" class="connection-status">Status: <span class="status-dot">● Terhubung</span></div>
 
-        <a href="../backend/logout.php" class="logout-link">Keluar (<?php echo $_SESSION['nama']; ?>)</a>
+        <a href="<?php echo htmlspecialchars($logoutUrl, ENT_QUOTES, 'UTF-8'); ?>" class="logout-link">Keluar (<?php echo htmlspecialchars($_SESSION['nama'], ENT_QUOTES, 'UTF-8'); ?>)</a>
     </div>
 </nav>
 
 <!-- Mobile Navigation Menu -->
 <div class="nav-mobile" id="navMobile">
-    <a href="index.php" class="nav-link nav-dashboard" data-page="dashboard">📊 Dashboard</a>
+    <a href="<?php echo htmlspecialchars($dashboardUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-dashboard" data-page="dashboard">📊 Dashboard</a>
     
     <?php if ($_SESSION['role'] === 'mahasiswa') : ?>
-        <a href="../backend/profil.php" class="nav-link nav-profil" data-page="profil">👤 Profil Saya</a>
+        <a href="<?php echo htmlspecialchars($profileUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-profil" data-page="profil">👤 Profil Saya</a>
     <?php endif; ?>
 
     <?php if ($_SESSION['role'] === 'dosen' || $_SESSION['role'] === 'admin') : ?>
-        <a href="../backend/rekap_nilai.php" class="nav-link nav-rekap" data-page="rekap">📈 Rekap Nilai</a>
-        <a href="../backend/admin_skenario_fixed.php" class="nav-link nav-skenario" data-page="skenario">⚙️ Atur Skenario</a>
+        <a href="<?php echo htmlspecialchars($rekapUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-rekap" data-page="rekap">📈 Rekap Nilai</a>
+        <a href="<?php echo htmlspecialchars($scenarioUrl, ENT_QUOTES, 'UTF-8'); ?>" class="nav-link nav-skenario" data-page="skenario">⚙️ Atur Skenario</a>
     <?php endif; ?>
 
     <div id="statusMobile" class="connection-status">Status: <span class="status-dot">● Terhubung</span></div>
-    <a href="../backend/logout.php" class="logout-link logout-link-mobile">🚪 Keluar (<?php echo $_SESSION['nama']; ?>)</a>
+    <a href="<?php echo htmlspecialchars($logoutUrl, ENT_QUOTES, 'UTF-8'); ?>" class="logout-link logout-link-mobile">🚪 Keluar (<?php echo htmlspecialchars($_SESSION['nama'], ENT_QUOTES, 'UTF-8'); ?>)</a>
 </div>
 
 <!-- Breadcrumb Navigation -->
 <div class="breadcrumb-container">
     <nav class="breadcrumb" id="breadcrumb">
-        <a href="index.php" class="breadcrumb-link">🏠 Dashboard</a>
+        <a href="<?php echo htmlspecialchars($dashboardUrl, ENT_QUOTES, 'UTF-8'); ?>" class="breadcrumb-link">🏠 Dashboard</a>
         <span class="breadcrumb-separator">/</span>
         <span class="breadcrumb-current" id="breadcrumbCurrent">Beranda</span>
     </nav>
@@ -393,7 +402,7 @@
     </div>
 </div>
 
-<script src="../frontend/assets/js/dashboard.js"></script>
+<script src="<?php echo htmlspecialchars($assetBaseUrl . '/js/dashboard.js', ENT_QUOTES, 'UTF-8'); ?>"></script>
 
 </body>
 </html>

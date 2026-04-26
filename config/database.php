@@ -19,15 +19,27 @@ function getDBConnection() {
 // Session configuration
 function initSession() {
     if (session_status() == PHP_SESSION_NONE) {
+        $defaultSessionPath = session_save_path();
+
+        if ($defaultSessionPath === '' || !is_dir($defaultSessionPath) || !is_writable($defaultSessionPath)) {
+            $fallbackSessionPath = __DIR__ . '/../tmp/sessions';
+
+            if (!is_dir($fallbackSessionPath)) {
+                mkdir($fallbackSessionPath, 0777, true);
+            }
+
+            session_save_path($fallbackSessionPath);
+        }
+
         session_start();
     }
 }
 
 // Check if user is logged in
-function requireLogin() {
+function requireLogin($loginPath = '../login.php') {
     initSession();
     if (!isset($_SESSION['id_user'])) {
-        header("Location: ../login.php");
+        header("Location: " . $loginPath);
         exit();
     }
 }

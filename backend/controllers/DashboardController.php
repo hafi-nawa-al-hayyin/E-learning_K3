@@ -1,5 +1,5 @@
 <?php
-require_once '../../config/database.php';
+require_once __DIR__ . '/../../config/database.php';
 
 class DashboardController {
     private $db;
@@ -23,7 +23,7 @@ class DashboardController {
         $stats = $this->getStatistics();
 
         // Load the view
-        require_once '../../frontend/templates/dashboard.php';
+        require_once __DIR__ . '/../../frontend/templates/dashboard.php';
     }
 
     private function handlePostRequests() {
