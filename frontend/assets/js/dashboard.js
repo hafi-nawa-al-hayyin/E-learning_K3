@@ -957,7 +957,39 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeChart();
 });
 
-function setupRemedialVisualization(data) {
+function start3DVisualization() {
+  // Mulai animasi untuk elemen yang ada berdasarkan ID
+  const gasSphere = document.getElementById("gas-sphere");
+  if (gasSphere) {
+    gasSphere.setAttribute("animation", "property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;");
+  }
+
+  const sparkSphere1 = document.getElementById("spark-sphere-1");
+  if (sparkSphere1) {
+    sparkSphere1.setAttribute("animation", "property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;");
+  }
+
+  const sparkSphere2 = document.getElementById("spark-sphere-2");
+  if (sparkSphere2) {
+    sparkSphere2.setAttribute("animation", "property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;");
+  }
+
+  const oilSpill = document.getElementById("oil-spill");
+  if (oilSpill) {
+    oilSpill.setAttribute("animation", "property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1200; loop: true; dir: alternate;");
+  }
+
+  const warningSphere = document.getElementById("warning-sphere");
+  if (warningSphere) {
+    warningSphere.setAttribute("animation", "property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;");
+  }
+
+  // Update teks panduan
+  const remedialText = document.getElementById("remedialText");
+  if (remedialText) {
+    remedialText.setAttribute("value", "Visualisasi 3D sedang berjalan...");
+  }
+}
   const visualization = document.getElementById("remedialVisualization");
   const remedialText = document.getElementById("remedialText");
 
@@ -972,7 +1004,7 @@ function setupRemedialVisualization(data) {
                 <a-box width="0.8" height="0.8" depth="0.8" color="#2c3e50" position="0 0.4 -3"></a-box>
                 <a-cylinder radius="0.06" height="1.2" color="${themeColors.muted}" position="0 1.2 -3"></a-cylinder>
                 <a-cylinder radius="0.06" height="3" color="${themeColors.muted}" position="1.5 1.8 -3" rotation="0 0 90"></a-cylinder>
-                <a-sphere radius="0.3" color="${themeColors.glow}" position="1.5 1.8 -3" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                <a-sphere radius="0.3" color="${themeColors.glow}" position="1.5 1.8 -3" opacity="0.9" id="gas-sphere"></a-sphere>
                 <a-text value="❌ BAHAYA!" position="0 2.5 -2" align="center" color="#f87171" scale="0.6 0.6 0.6"></a-text>
                 <a-text value="Gas Bocor" position="0 2.2 -2" align="center" color="${themeColors.accentSoft}" scale="0.5 0.5 0.5"></a-text>
             `;
@@ -987,8 +1019,8 @@ function setupRemedialVisualization(data) {
                 <a-box width="1" height="0.6" depth="0.4" color="${themeColors.accentDeep}" position="0 0.3 -3"></a-box>
                 <a-cylinder radius="0.03" height="0.8" color="${themeColors.glow}" position="-0.2 0.8 -3" rotation="15 0 0"></a-cylinder>
                 <a-cylinder radius="0.03" height="0.8" color="${themeColors.glow}" position="0.2 0.8 -3" rotation="-15 0 0"></a-cylinder>
-                <a-sphere radius="0.15" color="#f87171" position="0 0.6 -2.8" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;"></a-sphere>
-                <a-sphere radius="0.1" color="${themeColors.accentSoft}" position="-0.1 0.7 -2.9" opacity="0.9" animation="property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;"></a-sphere>
+                <a-sphere radius="0.15" color="#f87171" position="0 0.6 -2.8" opacity="0.8" id="spark-sphere-1"></a-sphere>
+                <a-sphere radius="0.1" color="${themeColors.accentSoft}" position="-0.1 0.7 -2.9" opacity="0.9" id="spark-sphere-2"></a-sphere>
                 <a-text value="⚡ KORLET!" position="0 2.5 -2" align="center" color="#f87171" scale="0.6 0.6 0.6"></a-text>
                 <a-text value="JANGAN pakai air!" position="0 2.2 -2" align="center" color="${themeColors.accentSoft}" scale="0.5 0.5 0.5"></a-text>
             `;
@@ -1001,7 +1033,7 @@ function setupRemedialVisualization(data) {
       // Visualisasi genangan oli
       visualization.innerHTML = `
                 <a-plane position="0 0.01 -3" rotation="-90 0 0" width="4" height="4" color="${themeColors.panel}" opacity="0.88"></a-plane>
-                <a-circle radius="1.5" color="${themeColors.accentSoft}" position="0 0.02 -3" rotation="-90 0 0" opacity="0.65" animation="property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1200; loop: true; dir: alternate;"></a-circle>
+                <a-circle radius="1.5" color="${themeColors.accentSoft}" position="0 0.02 -3" rotation="-90 0 0" opacity="0.65" id="oil-spill"></a-circle>
                 <a-cylinder radius="0.1" height="0.05" color="${themeColors.accentDeep}" position="0.5 0.1 -2.5"></a-cylinder>
                 <a-cylinder radius="0.08" height="0.03" color="${themeColors.glow}" position="-0.3 0.08 -2.8" rotation="90 0 0"></a-cylinder>
                 <a-text value="🛢️ TUMPAHAN" position="0 2.5 -2" align="center" color="#f87171" scale="0.6 0.6 0.6"></a-text>
@@ -1015,7 +1047,7 @@ function setupRemedialVisualization(data) {
     default:
       // Visualisasi umum bahaya
       visualization.innerHTML = `
-                <a-sphere radius="0.8" color="${themeColors.accent}" position="0 1 -3" opacity="0.8" animation="property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;"></a-sphere>
+                <a-sphere radius="0.8" color="${themeColors.accent}" position="0 1 -3" opacity="0.8" id="warning-sphere"></a-sphere>
                 <a-text value="⚠️ BAHAYA!" position="0 2.5 -2" align="center" color="#f87171" scale="0.8 0.8 0.8"></a-text>
                 <a-text value="Ikuti SOP K3" position="0 2.2 -2" align="center" color="${themeColors.accentSoft}" scale="0.6 0.6 0.6"></a-text>
             `;

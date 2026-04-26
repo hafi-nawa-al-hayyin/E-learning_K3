@@ -267,6 +267,56 @@ async function hapusSatu(id) {
   }
 }
 
+// ================= START 3D VISUALIZATION =================
+function start3DVisualization() {
+  // Mulai animasi untuk elemen yang ada berdasarkan ID
+  const gasSphere = document.getElementById("gas-sphere");
+  if (gasSphere) {
+    gasSphere.setAttribute(
+      "animation",
+      "property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;",
+    );
+  }
+
+  const sparkSphere1 = document.getElementById("spark-sphere-1");
+  if (sparkSphere1) {
+    sparkSphere1.setAttribute(
+      "animation",
+      "property: scale; from: 1 1 1; to: 1.3 1.3 1.3; dur: 800; loop: true; dir: alternate;",
+    );
+  }
+
+  const sparkSphere2 = document.getElementById("spark-sphere-2");
+  if (sparkSphere2) {
+    sparkSphere2.setAttribute(
+      "animation",
+      "property: scale; from: 1 1 1; to: 1.4 1.4 1.4; dur: 600; loop: true; dir: alternate;",
+    );
+  }
+
+  const oilSpill = document.getElementById("oil-spill");
+  if (oilSpill) {
+    oilSpill.setAttribute(
+      "animation",
+      "property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1200; loop: true; dir: alternate;",
+    );
+  }
+
+  const warningSphere = document.getElementById("warning-sphere");
+  if (warningSphere) {
+    warningSphere.setAttribute(
+      "animation",
+      "property: scale; from: 1 1 1; to: 1.2 1.2 1.2; dur: 1000; loop: true; dir: alternate;",
+    );
+  }
+
+  // Update teks panduan
+  const remedialText = document.getElementById("remedialText");
+  if (remedialText) {
+    remedialText.setAttribute("value", "Visualisasi 3D sedang berjalan...");
+  }
+}
+
 // ================= INIT =================
 document.addEventListener("DOMContentLoaded", () => {
   // Kode load peserta dll...

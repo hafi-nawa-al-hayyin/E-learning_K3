@@ -386,6 +386,7 @@
         </div>
 
         <div class="remedial-footer">
+            <button onclick="start3DVisualization()" class="start-3d-btn">🎮 Mulai Visualisasi 3D</button>
             <button onclick="retrySimulation()" class="retry-btn">🔄 Coba Lagi Simulasi</button>
             <button onclick="closeRemedialModal()" class="continue-btn">✅ Lanjut ke Simulasi Baru</button>
         </div>
