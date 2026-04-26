@@ -645,7 +645,6 @@ if (isset($_POST['login'])) {
 
         <div class="box" id="box-login" style="<?php echo $tampilkan_register ? 'display:none;' : 'display:block;'; ?>">
             <h2 class="panel-title">Masuk</h2>
-            <p class="panel-subtitle">Akses dashboard K3-VirtuAI dengan tampilan yang lebih jelas, rapi, dan selaras dengan tema utama.</p>
             <?php if ($pesan !== "" && !$tampilkan_register) : ?>
                 <div class="message <?php echo $pesan_tipe === "success" ? "success" : "error"; ?>"><?php echo htmlspecialchars($pesan); ?></div>
             <?php endif; ?>
@@ -688,7 +687,6 @@ if (isset($_POST['login'])) {
 
         <div class="box" id="box-register" style="<?php echo $tampilkan_register ? 'display:block;' : 'display:none;'; ?>">
             <h2 class="panel-title">Registrasi</h2>
-            <p class="panel-subtitle">Buat akun baru dengan tampilan yang konsisten, jelas dilihat, dan langsung siap digunakan untuk simulasi.</p>
             <?php if ($pesan !== "" && $tampilkan_register) : ?>
                 <div class="message <?php echo $pesan_tipe === "success" ? "success" : "error"; ?>"><?php echo htmlspecialchars($pesan); ?></div>
             <?php endif; ?>
