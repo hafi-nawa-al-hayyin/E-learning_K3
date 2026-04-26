@@ -95,8 +95,8 @@ $dGagal = mysqli_fetch_assoc($qGagal);
         .section-title { margin-bottom: 20px; font-size: 1.3em; color: #007bff; font-weight: bold; border-bottom: 1px solid #dee2e6; padding-bottom: 10px;}
 
         .info-grid { display: grid; grid-template-columns: 150px 1fr; gap: 15px; margin-bottom: 20px; font-size: 0.95em; }
-        .info-label { color: #6c757d; font-weight: bold; }
-        .info-value { color: #000000; }
+        .info-label { color: #60a5fa; font-weight: bold; }
+        .info-value { color: #e5f0ff; }
 
         .stat-grid { display: flex; gap: 15px; margin-bottom: 30px; text-align: center; }
         .stat-box { flex: 1; background: #0f172a; padding: 15px; border-radius: 8px; border: 1px solid #1e40af; }

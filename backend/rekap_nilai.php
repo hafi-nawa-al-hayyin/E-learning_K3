@@ -34,7 +34,7 @@ include 'koneksi.php';
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th { background: #1e40af; color: #e5f0ff; text-align: left; padding: 12px; font-size: 0.9em; }
         td { padding: 12px; border-bottom: 1px solid #dee2e6; font-size: 0.85em; }
-        tr:hover { background: #f8f9fa; }
+        tr:hover { background: rgba(59, 130, 246, 0.1); }
 
         .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; }
         .badge-lulus { background: rgba(40, 167, 69, 0.2); color: #28a745; }
