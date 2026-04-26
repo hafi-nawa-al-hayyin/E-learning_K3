@@ -595,6 +595,16 @@ tbody tr:hover {
   font-size: 0.95rem;
 }
 
+.chart-stat-pass {
+  color: var(--accent-soft);
+  font-weight: 700;
+}
+
+.chart-stat-fail {
+  color: #f87171;
+  font-weight: 700;
+}
+
 .search-filter-container {
   display: flex;
   flex-wrap: wrap;

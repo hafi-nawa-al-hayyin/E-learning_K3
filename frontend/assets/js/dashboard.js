@@ -716,8 +716,8 @@ if (chartCanvas && typeof Chart !== "undefined") {
       datasets: [
         {
           data: [0, 0], // Will be updated via API
-          backgroundColor: [themeColors.accent, "#1e3a8a"],
-          hoverBackgroundColor: [themeColors.accentSoft, "#2563eb"],
+          backgroundColor: [themeColors.accent, "#ef4444"],
+          hoverBackgroundColor: [themeColors.accentSoft, "#f87171"],
           borderWidth: 0,
         },
       ],
@@ -753,7 +753,7 @@ function updateChartSummary(lulus, gagal) {
   } else {
     const lulusPercent = Math.round((lulus / total) * 100);
     const gagalPercent = Math.round((gagal / total) * 100);
-    summaryEl.textContent = `Lulus: ${lulus} (${lulusPercent}%) | Gagal: ${gagal} (${gagalPercent}%)`;
+    summaryEl.innerHTML = `<span class="chart-stat-pass">Lulus: ${lulus} (${lulusPercent}%)</span> | <span class="chart-stat-fail">Gagal: ${gagal} (${gagalPercent}%)</span>`;
   }
 }
 
