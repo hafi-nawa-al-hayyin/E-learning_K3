@@ -612,9 +612,6 @@ if (isset($_POST['login'])) {
                     Portal Simulasi K3-VirtuAI
                 </div>
                 <h1 class="hero-title">Masuk ke sistem <span>hitam-biru</span> yang selaras dengan dashboard.</h1>
-                <p class="hero-desc">
-                    Halaman login sekarang memakai nuansa visual yang sama dengan dashboard utama, dengan kontras yang lebih kuat agar form, tombol, dan pesan informasi lebih mudah dilihat.
-                </p>
 
                 <div class="hero-points">
                     <div class="hero-point">
