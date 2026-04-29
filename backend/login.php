@@ -1,10 +1,15 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 initSession();
-include 'koneksi.php';
+require_once __DIR__ . '/koneksi.php';
+
+$appBasePath = isset($appBasePath) ? trim((string) $appBasePath, '/') : '';
+$appUrlPrefix = $appBasePath === '' ? '' : $appBasePath . '/';
+$postLoginRedirect = isset($postLoginRedirect) ? (string) $postLoginRedirect : 'index.php';
+$forgotPasswordUrl = $appUrlPrefix . 'lupa_password.php';
 
 if (isset($_SESSION['id_user'])) {
-    header("Location: index.php");
+    header("Location: " . $postLoginRedirect);
     exit();
 }
 
@@ -60,7 +65,7 @@ if (isset($_POST['login'])) {
             $_SESSION['nim'] = $row['nim_nidn'];
             $_SESSION['role'] = $row['role'];
 
-            header("Location: index.php");
+            header("Location: " . $postLoginRedirect);
             exit();
         } else {
             $pesan = "Password salah!";
@@ -677,7 +682,7 @@ if (isset($_POST['login'])) {
                 </div>
 
                 <div class="aux-row">
-                    <a href="lupa_password.php" class="link forgot-link">Lupa Password?</a>
+                    <a href="<?php echo htmlspecialchars($forgotPasswordUrl, ENT_QUOTES, 'UTF-8'); ?>" class="link forgot-link">Lupa Password?</a>
                 </div>
 
                 <button type="submit" name="login">Masuk ke Dashboard</button>
